@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+ <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <!-- Diagram content (shape and connector positions) -->
+    <edmx:Diagrams>
+      <Diagram DiagramId="c256a6072fc843b0a32af1e87ede5612" Name="Diagram1">
+        <EntityTypeShape EntityType="SparkMeetingRoomModel.AspNetRole" Width="1.5" PointX="0.75" PointY="6.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="SparkMeetingRoomModel.AspNetUserClaim" Width="1.5" PointX="5.25" PointY="2.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="SparkMeetingRoomModel.AspNetUserLogin" Width="1.5" PointX="5.25" PointY="9.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="SparkMeetingRoomModel.AspNetUser" Width="1.5" PointX="3" PointY="4.625" IsExpanded="true" />
+        <EntityTypeShape EntityType="SparkMeetingRoomModel.Asset" Width="1.5" PointX="3.75" PointY="19.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="SparkMeetingRoomModel.BookingHistory" Width="1.5" PointX="10.5" PointY="5.875" IsExpanded="true" />
+        <EntityTypeShape EntityType="SparkMeetingRoomModel.Booking" Width="1.5" PointX="8.25" PointY="5.375" IsExpanded="true" />
+        <EntityTypeShape EntityType="SparkMeetingRoomModel.BookingStatus" Width="1.5" PointX="1.5" PointY="13.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="SparkMeetingRoomModel.Building" Width="1.5" PointX="1.5" PointY="15.875" IsExpanded="true" />
+        <EntityTypeShape EntityType="SparkMeetingRoomModel.Log" Width="1.5" PointX="10" PointY="1" IsExpanded="true" />
+        <EntityTypeShape EntityType="SparkMeetingRoomModel.LogType" Width="1.5" PointX="7.75" PointY="1.375" IsExpanded="true" />
+        <EntityTypeShape EntityType="SparkMeetingRoomModel.RoomAsset" Width="1.5" PointX="6" PointY="15" IsExpanded="true" />
+        <EntityTypeShape EntityType="SparkMeetingRoomModel.RoomRole" Width="1.5" PointX="6.625" PointY="7.625" IsExpanded="true" />
+        <EntityTypeShape EntityType="SparkMeetingRoomModel.Room" Width="1.5" PointX="3.75" PointY="14.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="SparkMeetingRoomModel.sysdiagram" Width="1.5" PointX="0.75" PointY="0.75" IsExpanded="true" />
+        <AssociationConnector Association="SparkMeetingRoomModel.FK_RoomRole_AspNetRoles" ManuallyRouted="false" />
+        <AssociationConnector Association="SparkMeetingRoomModel.FK_dbo_AspNetUserClaims_dbo_AspNetUsers_UserId" ManuallyRouted="false" />
+        <AssociationConnector Association="SparkMeetingRoomModel.FK_dbo_AspNetUserLogins_dbo_AspNetUsers_UserId" ManuallyRouted="false" />
+        <AssociationConnector Association="SparkMeetingRoomModel.FK_AspNetUsers_Building" ManuallyRouted="false" />
+        <AssociationConnector Association="SparkMeetingRoomModel.FK_Booking_User" ManuallyRouted="false" />
+        <AssociationConnector Association="SparkMeetingRoomModel.FK_BookingHistory_User" ManuallyRouted="false" />
+        <AssociationConnector Association="SparkMeetingRoomModel.FK_RoomAsset_Asset" ManuallyRouted="false" />
+        <AssociationConnector Association="SparkMeetingRoomModel.FK_BookingHistory_Booking" ManuallyRouted="false" />
+        <AssociationConnector Association="SparkMeetingRoomModel.FK_Booking_BookingStatus" ManuallyRouted="false" />
+        <AssociationConnector Association="SparkMeetingRoomModel.FK_Booking_Room" ManuallyRouted="false" />
+        <AssociationConnector Association="SparkMeetingRoomModel.FK_Room_BookingStatus" ManuallyRouted="false" />
+        <AssociationConnector Association="SparkMeetingRoomModel.FK_Room_Building" ManuallyRouted="false" />
+        <AssociationConnector Association="SparkMeetingRoomModel.FK_Log_LogType" ManuallyRouted="false" />
+        <AssociationConnector Association="SparkMeetingRoomModel.FK_RoomAsset_Room" ManuallyRouted="false" />
+        <AssociationConnector Association="SparkMeetingRoomModel.FK_RoomRole_Room" ManuallyRouted="false" />
+        <AssociationConnector Association="SparkMeetingRoomModel.AspNetUserRoles" ManuallyRouted="false" />
+      </Diagram>
+    </edmx:Diagrams>
+  </edmx:Designer>
+</edmx:Edmx>
