@@ -8,9 +8,9 @@ using System.Web.Mvc;
 using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.Owin;
 using Microsoft.Owin.Security;
-using Visma_Room2Meet.Models;
+using SparkMeetingRoom.Models;
 
-namespace Visma_Room2Meet.Controllers
+namespace SparkMeetingRoom.Controllers
 {
     [Authorize]
     public class AccountController : Controller
@@ -158,34 +158,50 @@ namespace Visma_Room2Meet.Controllers
         [HttpPost]
         [AllowAnonymous]
         [ValidateAntiForgeryToken]
-        public async Task<ActionResult> Register(RegisterViewModel model)
+        public ActionResult Register(RegisterViewModel model)
         {
             if (ModelState.IsValid)
             {
-                var user = new ApplicationUser { UserName = model.Email, Email = model.Email, PhoneNumber = model.PhoneNumber, LockoutEnabled = true, LockoutEndDateUtc = DateTime.UtcNow.AddYears(1), BuildingID = model.BuildingID, Name = model.Name };
-                var result = await UserManager.CreateAsync(user, model.Password);
-                if (result.Succeeded)
+                Helpers.User.CreatePassword(ref model);
+                var newUser = new SparkMeetingUser(model.FirstName, model.LastName, model.Email, true, model.FirstName+" "+model.LastName, model.Password, model.Salt, DateTime.UtcNow);
+                using (SparkMeetingRoomEntities repository = new SparkMeetingRoomEntities())
                 {
-                    var role = db.AspNetRoles.Where(r => r.Name == "Employee").FirstOrDefault();
-                    var userdb = db.AspNetUsers.Find(user.Id);
-                    userdb.AspNetRoles.Add(role);
-                    db.Entry(userdb).State = System.Data.Entity.EntityState.Modified;
-                    db.SaveChanges();
-                    /*await SignInManager.SignInAsync(user, isPersistent:false, rememberBrowser:false);*/
-                    
-                    // For more information on how to enable account confirmation and password reset please visit http://go.microsoft.com/fwlink/?LinkID=320771
-                    // Send an email with this link
-                    // string code = await UserManager.GenerateEmailConfirmationTokenAsync(user.Id);
-                    // var callbackUrl = Url.Action("ConfirmEmail", "Account", new { userId = user.Id, code = code }, protocol: Request.Url.Scheme);
-                    // await UserManager.SendEmailAsync(user.Id, "Confirm your account", "Please confirm your account by clicking <a href=\"" + callbackUrl + "\">here</a>");
-
-                    return View("Lockout");
+                    repository.SparkMeetingUsers.Add(newUser);
+                    repository.SaveChanges();
                 }
-                AddErrors(result);
+                //var user = new ApplicationUser { UserName = model.Email, Email = model.Email, PhoneNumber = model.PhoneNumber, LockoutEnabled = true, LockoutEndDateUtc = DateTime.UtcNow.AddYears(1) };
+
+                //try
+                //{
+                //    var result = await UserManager.CreateAsync(user, model.Password);
+                //    if (result.Succeeded)
+                //    {
+                //        var role = db.AspNetRoles.Where(r => r.Name == "Employee").FirstOrDefault();
+                //        var userdb = db.AspNetUsers.Find(user.Id);
+                //        userdb.AspNetRoles.Add(role);
+                //        db.Entry(userdb).State = System.Data.Entity.EntityState.Modified;
+                //        db.SaveChanges();
+                //        /*await SignInManager.SignInAsync(user, isPersistent:false, rememberBrowser:false);*/
+
+                //        // For more information on how to enable account confirmation and password reset please visit http://go.microsoft.com/fwlink/?LinkID=320771
+                //        // Send an email with this link
+                //        // string code = await UserManager.GenerateEmailConfirmationTokenAsync(user.Id);
+                //        // var callbackUrl = Url.Action("ConfirmEmail", "Account", new { userId = user.Id, code = code }, protocol: Request.Url.Scheme);
+                //        // await UserManager.SendEmailAsync(user.Id, "Confirm your account", "Please confirm your account by clicking <a href=\"" + callbackUrl + "\">here</a>");
+
+                //        return View("Lockout");
+                //    }
+                //    AddErrors(result);
+                //}
+                //catch (Exception ex)
+                //{
+                //}
+
+
             }
 
             // If we got this far, something failed, redisplay form
-            ViewBag.BuildingID = new SelectList(db.Buildings.ToList(), "BuildingID", "Name");
+            //ViewBag.BuildingID = new SelectList(db.Buildings.ToList(), "BuildingID", "Name");
             return View(model);
         }
 

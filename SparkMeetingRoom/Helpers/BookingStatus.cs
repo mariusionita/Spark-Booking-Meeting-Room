@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 
-namespace Visma_Room2Meet.Helpers
+namespace SparkMeetingRoom.Helpers
 {
     public enum BookingStatus
     {

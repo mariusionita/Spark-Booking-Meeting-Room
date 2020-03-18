@@ -3,7 +3,7 @@
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>@ViewBag.Title - Visma Room2Meet</title>
+    <title>@ViewBag.Title - Spark Manager</title>
     <link rel="icon" type="image/png" href="~/Content/favicon.png" sizes="48x48">
     @Styles.Render("~/Content/css")
     @Scripts.Render("~/bundles/modernizr")
@@ -12,7 +12,7 @@
 <body>
     @if (Request.IsAuthenticated)
     {
-        var userRoleOrder = Visma_Room2Meet.Helpers.User.GetUserRoleOrder(User.Identity.Name);
+        var userRoleOrder = SparkMeetingRoom.Helpers.User.GetUserRoleOrder(User.Identity.Name);
         <div class="navbar @((User.IsInRole("Administrator") ? "navbar-black" : "navbar-inverse")) navbar-fixed-top">
             <div class="container">
                 <div class="navbar-header">
@@ -21,7 +21,7 @@
                         <span class="icon-bar"></span>
                         <span class="icon-bar"></span>
                     </button>
-                    <a href="@Url.Action("Index", "Home")"><img src="~/Content/logo.png" style="max-height:25px; margin-top:20px; margin-right:15px; margin-left:15px" alt="Visma Room2Meet" /></a>
+                    <a href="@Url.Action("Index", "Home")"><img src="~/Content/logo.png" style="max-height:25px; margin-top:20px; margin-right:15px; margin-left:15px" alt="Spark Manager" /></a>
                 </div>
                 <div class="navbar-collapse collapse">
                     <ul class="nav navbar-nav">
@@ -88,7 +88,7 @@
         @RenderBody()
         <hr />
         <footer>
-            <p>&copy; @DateTime.Now.Year - Visma Room2Meet. <span class="pull-right">Developed by <a href="http://www.linkedin.com/in/mihaieparu" target="_blank">Mihai-Alin Eparu</a> during the second edition of Visma Code for Cash competition</span></p>
+            <p>&copy; @DateTime.Now.Year - Spark Manager. <span class="pull-right">Developed by <a href="http://www.linkedin.com/in/mihaieparu" target="_blank">Mihai-Alin Eparu</a> during the second edition of Visma Code for Cash competition</span></p>
         </footer>
     </div>
 

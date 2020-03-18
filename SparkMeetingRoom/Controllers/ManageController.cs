@@ -6,9 +6,9 @@ using System.Web.Mvc;
 using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.Owin;
 using Microsoft.Owin.Security;
-using Visma_Room2Meet.Models;
+using SparkMeetingRoom.Models;
 
-namespace Visma_Room2Meet.Controllers
+namespace SparkMeetingRoom.Controllers
 {
     [Authorize]
     public class ManageController : Controller

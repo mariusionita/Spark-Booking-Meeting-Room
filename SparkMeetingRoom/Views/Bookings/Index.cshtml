@@ -1,9 +1,9 @@
-﻿@model IEnumerable<Visma_Room2Meet.Booking>
+﻿@model IEnumerable<SparkMeetingRoom.Booking>
 
 @{
     Styles.Render("~/dataTablesStyles");
     ViewBag.Title = "View all bookings";
-    var userRoleLevel = Visma_Room2Meet.Helpers.User.GetUserRoleOrder(User.Identity.Name); //get current user's role level
+    var userRoleLevel = SparkMeetingRoom.Helpers.User.GetUserRoleOrder(User.Identity.Name); //get current user's role level
     var my = new List<Booking>();
     if (userRoleLevel > -1)
     {

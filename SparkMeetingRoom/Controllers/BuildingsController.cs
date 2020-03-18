@@ -1,4 +1,5 @@
-﻿using System;
+﻿using SparkMeetingRoom;
+using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Data.Entity;
@@ -6,9 +7,8 @@ using System.Linq;
 using System.Net;
 using System.Web;
 using System.Web.Mvc;
-using Visma_Room2Meet;
 
-namespace Visma_Room2Meet.Controllers
+namespace SparkMeetingRoom.Controllers
 {
     [Authorize(Roles = "Administrator")]
     public class BuildingsController : Controller
@@ -24,7 +24,7 @@ namespace Visma_Room2Meet.Controllers
             }
             catch (Exception ex)
             {
-                ViewBag.Log = Helpers.LogHandler.HandleLog(Helpers.LogType.Warning, "Buildings/Index", ex.Message, (ex.InnerException != null ? ex.InnerException.Message : ""), Request.Params);
+                ViewBag.Log = LogHandler.Helpers.LogHandler.HandleLog(LogHandler.Helpers.LogType.Warning, "Buildings/Index", ex.Message, (ex.InnerException != null ? ex.InnerException.Message : ""), Request.Params);
                 return View("Error");
             }
         }
@@ -48,7 +48,7 @@ namespace Visma_Room2Meet.Controllers
             }
             catch (Exception ex)
             {
-                ViewBag.Log = Helpers.LogHandler.HandleLog(Helpers.LogType.Warning, "Buildings/Details", ex.Message, (ex.InnerException != null ? ex.InnerException.Message : ""), Request.Params);
+                ViewBag.Log = LogHandler.Helpers.LogHandler.HandleLog(LogHandler.Helpers.LogType.Warning, "Buildings/Details", ex.Message, (ex.InnerException != null ? ex.InnerException.Message : ""), Request.Params);
                 return View("Error");
             }
         }
@@ -79,7 +79,7 @@ namespace Visma_Room2Meet.Controllers
             }
             catch (Exception ex)
             {
-                ViewBag.Log = Helpers.LogHandler.HandleLog(Helpers.LogType.Warning, "Buildings/Create", ex.Message, (ex.InnerException != null ? ex.InnerException.Message : ""), Request.Params);
+                ViewBag.Log = LogHandler.Helpers.LogHandler.HandleLog(LogHandler.Helpers.LogType.Warning, "Buildings/Create", ex.Message, (ex.InnerException != null ? ex.InnerException.Message : ""), Request.Params);
                 return View("Error");
             }
         }
@@ -102,7 +102,7 @@ namespace Visma_Room2Meet.Controllers
             }
             catch (Exception ex)
             {
-                ViewBag.Log = Helpers.LogHandler.HandleLog(Helpers.LogType.Warning, "Buildings/Edit", ex.Message, (ex.InnerException != null ? ex.InnerException.Message : ""), Request.Params);
+                ViewBag.Log = LogHandler.Helpers.LogHandler.HandleLog(LogHandler.Helpers.LogType.Warning, "Buildings/Edit", ex.Message, (ex.InnerException != null ? ex.InnerException.Message : ""), Request.Params);
                 return View("Error");
             }
         }
@@ -126,7 +126,7 @@ namespace Visma_Room2Meet.Controllers
             }
             catch (Exception ex)
             {
-                ViewBag.Log = Helpers.LogHandler.HandleLog(Helpers.LogType.Warning, "Buildings/EditPOST", ex.Message, (ex.InnerException != null ? ex.InnerException.Message : ""), Request.Params);
+                ViewBag.Log = LogHandler.Helpers.LogHandler.HandleLog(LogHandler.Helpers.LogType.Warning, "Buildings/EditPOST", ex.Message, (ex.InnerException != null ? ex.InnerException.Message : ""), Request.Params);
                 return View("Error");
             }
         }
@@ -151,7 +151,7 @@ namespace Visma_Room2Meet.Controllers
             }
             catch (Exception ex)
             {
-                ViewBag.Log = Helpers.LogHandler.HandleLog(Helpers.LogType.Warning, "Buildings/Delete", ex.Message, (ex.InnerException != null ? ex.InnerException.Message : ""), Request.Params);
+                ViewBag.Log = LogHandler.Helpers.LogHandler.HandleLog(LogHandler.Helpers.LogType.Warning, "Buildings/Delete", ex.Message, (ex.InnerException != null ? ex.InnerException.Message : ""), Request.Params);
                 return View("Error");
             }
         }

@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 
-namespace Visma_Room2Meet.Models
+namespace SparkMeetingRoom.Models
 {
     public class ExternalLoginConfirmationViewModel
     {
@@ -65,22 +65,26 @@ namespace Visma_Room2Meet.Models
     public class RegisterViewModel
     {
         [Required]
-        [Display(Name = "FullName", ResourceType = typeof(StringResources))]
-        public string Name { get; set; }
+        [Display(Name = "First Name")]
+        public string FirstName { get; set; }
+
+        [Required]
+        [Display(Name = "Last Name")]
+        public string LastName { get; set; }
 
         [Required]
         [EmailAddress]
-        [Display(Name = "Email", ResourceType = typeof(StringResources))]
+        [Display(Name = "Email")]
         public string Email { get; set; }
 
         [Required]
         [StringLength(100, ErrorMessage = "The {0} must be at least {2} characters long.", MinimumLength = 6)]
         [DataType(DataType.Password)]
-        [Display(Name = "Password", ResourceType = typeof(StringResources))]
+        [Display(Name = "Password")]
         public string Password { get; set; }
 
         [DataType(DataType.Password)]
-        [Display(Name = "ConfirmPassword", ResourceType = typeof(StringResources))]
+        [Display(Name = "Confirm password")]
         [Compare("Password", ErrorMessage = "The password and confirmation password do not match.")]
         public string ConfirmPassword { get; set; }
 
@@ -88,9 +92,9 @@ namespace Visma_Room2Meet.Models
         [Phone]
         [MinLength(12)]
         [MaxLength(14)]
-        [Display(Name = "PhoneNumber", ResourceType = typeof(StringResources))]
+        [Display(Name = "Phone number")]
         public string PhoneNumber { get; set; }
-        
+        public string Salt { get; set; }
         //[Display(Name = "Visma building")]
         //public int? BuildingID { get; set; }
     }

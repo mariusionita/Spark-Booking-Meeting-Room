@@ -1,10 +1,11 @@
-﻿using System;
+﻿using SparkMeetingRoom;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Web.Helpers;
 
-namespace Visma_Room2Meet.Helpers
+namespace LogHandler.Helpers
 {
     public static class LogHandler
     {

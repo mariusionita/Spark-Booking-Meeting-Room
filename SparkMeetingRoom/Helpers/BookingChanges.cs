@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 
-namespace Visma_Room2Meet.Helpers
+namespace SparkMeetingRoom.Helpers
 {
     public static class BookingChanges
     {
@@ -31,7 +31,7 @@ namespace Visma_Room2Meet.Helpers
             db.SaveChanges();
             if (userID != booking.AspNetUserID)
             {
-                SMS.SendSMS(booking.AspNetUser.PhoneNumber, "Hello, Today, " + bh.ChangeDate + ", " + user.Name + " has changed something regarding your booking. Please sign in and review this change. Visma Room2Meet");
+                SMS.SendSMS(booking.AspNetUser.PhoneNumber, "Hello, Today, " + bh.ChangeDate + ", " + user.Name + " has changed something regarding your booking. Please sign in and review this change. Spark Manager");
             }
             return true;
         }

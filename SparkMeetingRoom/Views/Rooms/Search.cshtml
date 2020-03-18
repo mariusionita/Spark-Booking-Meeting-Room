@@ -1,6 +1,6 @@
 ﻿@{
     ViewBag.Title = "Search for a meeting room";
-    var userRoleOrder = Visma_Room2Meet.Helpers.User.GetUserRoleOrder(User.Identity.Name);
+    var userRoleOrder = SparkMeetingRoom.Helpers.User.GetUserRoleOrder(User.Identity.Name);
     List<Asset> assets = (List<Asset>)ViewBag.Assets;
 }
 

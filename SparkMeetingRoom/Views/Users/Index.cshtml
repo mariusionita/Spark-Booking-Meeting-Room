@@ -1,9 +1,9 @@
-﻿@model IEnumerable<Visma_Room2Meet.AspNetUser>
+﻿@model IEnumerable<SparkMeetingRoom.AspNetUser>
 
 @{
     Styles.Render("~/dataTablesStyles");
     ViewBag.Title = "View all users";
-    var userRoleOrder = Visma_Room2Meet.Helpers.User.GetUserRoleOrder(User.Identity.Name);
+    var userRoleOrder = SparkMeetingRoom.Helpers.User.GetUserRoleOrder(User.Identity.Name);
 }
 
 <style>

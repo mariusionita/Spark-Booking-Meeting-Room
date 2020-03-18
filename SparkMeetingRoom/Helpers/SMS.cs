@@ -4,7 +4,7 @@ using System.Linq;
 using System.Web;
 using Twilio;
 
-namespace Visma_Room2Meet.Helpers
+namespace SparkMeetingRoom.Helpers
 {
     public static class SMS
     {

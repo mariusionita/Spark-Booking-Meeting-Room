@@ -4,7 +4,7 @@
   <edmx:Runtime>
     <!-- SSDL content -->
     <edmx:StorageModels>
-      <Schema Namespace="SparkMeetingRoomModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+    <Schema Namespace="SparkMeetingRoomModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
         <EntityType Name="AspNetRoles">
           <Key>
             <PropertyRef Name="Id" />
@@ -164,6 +164,20 @@
           <Property Name="Name" Type="nvarchar" MaxLength="256" Nullable="false" />
           <Property Name="Description" Type="nvarchar" MaxLength="1024" />
           <Property Name="ImgUrl" Type="nvarchar" MaxLength="512" />
+        </EntityType>
+        <EntityType Name="SparkMeetingUsers">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="FirstName" Type="nvarchar" MaxLength="200" />
+          <Property Name="LastName" Type="nvarchar" MaxLength="200" />
+          <Property Name="Email" Type="nvarchar" MaxLength="200" />
+          <Property Name="IsActive" Type="bit" />
+          <Property Name="UserName" Type="nvarchar" MaxLength="200" />
+          <Property Name="Password" Type="nvarchar" MaxLength="200" />
+          <Property Name="Salt" Type="nvarchar" MaxLength="50" />
+          <Property Name="CreationDate" Type="datetime" />
         </EntityType>
         <EntityType Name="sysdiagrams">
           <Key>
@@ -399,6 +413,7 @@
           <EntitySet Name="RoomAssets" EntityType="Self.RoomAssets" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="RoomRoles" EntityType="Self.RoomRoles" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Rooms" EntityType="Self.Rooms" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="SparkMeetingUsers" EntityType="Self.SparkMeetingUsers" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="sysdiagrams" EntityType="Self.sysdiagrams" Schema="dbo" store:Type="Tables" />
           <AssociationSet Name="FK_AspNetUserRoles_AspNetRole" Association="Self.FK_AspNetUserRoles_AspNetRole">
             <End Role="AspNetRoles" EntitySet="AspNetRoles" />
@@ -469,30 +484,111 @@
             <End Role="RoomRoles" EntitySet="RoomRoles" />
           </AssociationSet>
         </EntityContainer>
-      </Schema>
-    </edmx:StorageModels>
+      </Schema></edmx:StorageModels>
     <!-- CSDL content -->
     <edmx:ConceptualModels>
       <Schema Namespace="SparkMeetingRoomModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityContainer Name="SparkMeetingRoomEntities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="AspNetRoles" EntityType="SparkMeetingRoomModel.AspNetRole" />
+          <EntitySet Name="AspNetUserClaims" EntityType="SparkMeetingRoomModel.AspNetUserClaim" />
+          <EntitySet Name="AspNetUserLogins" EntityType="SparkMeetingRoomModel.AspNetUserLogin" />
+          <EntitySet Name="AspNetUsers" EntityType="SparkMeetingRoomModel.AspNetUser" />
+          <EntitySet Name="Assets" EntityType="SparkMeetingRoomModel.Asset" />
+          <EntitySet Name="BookingHistories" EntityType="SparkMeetingRoomModel.BookingHistory" />
+          <EntitySet Name="Bookings" EntityType="SparkMeetingRoomModel.Booking" />
+          <EntitySet Name="BookingStatuses" EntityType="SparkMeetingRoomModel.BookingStatus" />
+          <EntitySet Name="Buildings" EntityType="SparkMeetingRoomModel.Building" />
+          <EntitySet Name="Logs" EntityType="SparkMeetingRoomModel.Log" />
+          <EntitySet Name="LogTypes" EntityType="SparkMeetingRoomModel.LogType" />
+          <EntitySet Name="RoomAssets" EntityType="SparkMeetingRoomModel.RoomAsset" />
+          <EntitySet Name="RoomRoles" EntityType="SparkMeetingRoomModel.RoomRole" />
+          <EntitySet Name="Rooms" EntityType="SparkMeetingRoomModel.Room" />
+          <EntitySet Name="SparkMeetingUsers" EntityType="SparkMeetingRoomModel.SparkMeetingUser" />
+          <EntitySet Name="sysdiagrams" EntityType="SparkMeetingRoomModel.sysdiagram" />
+          <AssociationSet Name="FK_RoomRole_AspNetRoles" Association="SparkMeetingRoomModel.FK_RoomRole_AspNetRoles">
+            <End Role="AspNetRole" EntitySet="AspNetRoles" />
+            <End Role="RoomRole" EntitySet="RoomRoles" />
+          </AssociationSet>
+          <AssociationSet Name="FK_dbo_AspNetUserClaims_dbo_AspNetUsers_UserId" Association="SparkMeetingRoomModel.FK_dbo_AspNetUserClaims_dbo_AspNetUsers_UserId">
+            <End Role="AspNetUser" EntitySet="AspNetUsers" />
+            <End Role="AspNetUserClaim" EntitySet="AspNetUserClaims" />
+          </AssociationSet>
+          <AssociationSet Name="FK_dbo_AspNetUserLogins_dbo_AspNetUsers_UserId" Association="SparkMeetingRoomModel.FK_dbo_AspNetUserLogins_dbo_AspNetUsers_UserId">
+            <End Role="AspNetUser" EntitySet="AspNetUsers" />
+            <End Role="AspNetUserLogin" EntitySet="AspNetUserLogins" />
+          </AssociationSet>
+          <AssociationSet Name="FK_AspNetUsers_Building" Association="SparkMeetingRoomModel.FK_AspNetUsers_Building">
+            <End Role="Building" EntitySet="Buildings" />
+            <End Role="AspNetUser" EntitySet="AspNetUsers" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Booking_User" Association="SparkMeetingRoomModel.FK_Booking_User">
+            <End Role="AspNetUser" EntitySet="AspNetUsers" />
+            <End Role="Booking" EntitySet="Bookings" />
+          </AssociationSet>
+          <AssociationSet Name="FK_BookingHistory_User" Association="SparkMeetingRoomModel.FK_BookingHistory_User">
+            <End Role="AspNetUser" EntitySet="AspNetUsers" />
+            <End Role="BookingHistory" EntitySet="BookingHistories" />
+          </AssociationSet>
+          <AssociationSet Name="FK_RoomAsset_Asset" Association="SparkMeetingRoomModel.FK_RoomAsset_Asset">
+            <End Role="Asset" EntitySet="Assets" />
+            <End Role="RoomAsset" EntitySet="RoomAssets" />
+          </AssociationSet>
+          <AssociationSet Name="FK_BookingHistory_Booking" Association="SparkMeetingRoomModel.FK_BookingHistory_Booking">
+            <End Role="Booking" EntitySet="Bookings" />
+            <End Role="BookingHistory" EntitySet="BookingHistories" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Booking_BookingStatus" Association="SparkMeetingRoomModel.FK_Booking_BookingStatus">
+            <End Role="BookingStatus" EntitySet="BookingStatuses" />
+            <End Role="Booking" EntitySet="Bookings" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Booking_Room" Association="SparkMeetingRoomModel.FK_Booking_Room">
+            <End Role="Room" EntitySet="Rooms" />
+            <End Role="Booking" EntitySet="Bookings" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Room_BookingStatus" Association="SparkMeetingRoomModel.FK_Room_BookingStatus">
+            <End Role="BookingStatus" EntitySet="BookingStatuses" />
+            <End Role="Room" EntitySet="Rooms" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Room_Building" Association="SparkMeetingRoomModel.FK_Room_Building">
+            <End Role="Building" EntitySet="Buildings" />
+            <End Role="Room" EntitySet="Rooms" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Log_LogType" Association="SparkMeetingRoomModel.FK_Log_LogType">
+            <End Role="LogType" EntitySet="LogTypes" />
+            <End Role="Log" EntitySet="Logs" />
+          </AssociationSet>
+          <AssociationSet Name="FK_RoomAsset_Room" Association="SparkMeetingRoomModel.FK_RoomAsset_Room">
+            <End Role="Room" EntitySet="Rooms" />
+            <End Role="RoomAsset" EntitySet="RoomAssets" />
+          </AssociationSet>
+          <AssociationSet Name="FK_RoomRole_Room" Association="SparkMeetingRoomModel.FK_RoomRole_Room">
+            <End Role="Room" EntitySet="Rooms" />
+            <End Role="RoomRole" EntitySet="RoomRoles" />
+          </AssociationSet>
+          <AssociationSet Name="AspNetUserRoles" Association="SparkMeetingRoomModel.AspNetUserRoles">
+            <End Role="AspNetRole" EntitySet="AspNetRoles" />
+            <End Role="AspNetUser" EntitySet="AspNetUsers" />
+          </AssociationSet>
+        </EntityContainer>
         <EntityType Name="AspNetRole">
           <Key>
             <PropertyRef Name="Id" />
           </Key>
-          <Property Name="Id" Type="String" MaxLength="128" FixedLength="false" Unicode="true" Nullable="false" />
-          <Property Name="Name" Type="String" MaxLength="256" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Id" Type="String" Nullable="false" MaxLength="128" FixedLength="false" Unicode="true" />
+          <Property Name="Name" Type="String" Nullable="false" MaxLength="256" FixedLength="false" Unicode="true" />
           <Property Name="Order" Type="Int32" Nullable="false" />
-          <NavigationProperty Name="RoomRoles" Relationship="Self.FK_RoomRole_AspNetRoles" FromRole="AspNetRoles" ToRole="RoomRoles" />
-          <NavigationProperty Name="AspNetUsers" Relationship="Self.AspNetUserRoles" FromRole="AspNetRoles" ToRole="AspNetUsers" />
+          <NavigationProperty Name="RoomRoles" Relationship="SparkMeetingRoomModel.FK_RoomRole_AspNetRoles" FromRole="AspNetRole" ToRole="RoomRole" />
+          <NavigationProperty Name="AspNetUsers" Relationship="SparkMeetingRoomModel.AspNetUserRoles" FromRole="AspNetRole" ToRole="AspNetUser" />
         </EntityType>
         <EntityType Name="AspNetUserClaim">
           <Key>
             <PropertyRef Name="Id" />
           </Key>
           <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="UserId" Type="String" MaxLength="128" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="UserId" Type="String" Nullable="false" MaxLength="128" FixedLength="false" Unicode="true" />
           <Property Name="ClaimType" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
           <Property Name="ClaimValue" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
-          <NavigationProperty Name="AspNetUser" Relationship="Self.FK_dbo_AspNetUserClaims_dbo_AspNetUsers_UserId" FromRole="AspNetUserClaims" ToRole="AspNetUsers" />
+          <NavigationProperty Name="AspNetUser" Relationship="SparkMeetingRoomModel.FK_dbo_AspNetUserClaims_dbo_AspNetUsers_UserId" FromRole="AspNetUserClaim" ToRole="AspNetUser" />
         </EntityType>
         <EntityType Name="AspNetUserLogin">
           <Key>
@@ -500,16 +596,16 @@
             <PropertyRef Name="ProviderKey" />
             <PropertyRef Name="UserId" />
           </Key>
-          <Property Name="LoginProvider" Type="String" MaxLength="128" FixedLength="false" Unicode="true" Nullable="false" />
-          <Property Name="ProviderKey" Type="String" MaxLength="128" FixedLength="false" Unicode="true" Nullable="false" />
-          <Property Name="UserId" Type="String" MaxLength="128" FixedLength="false" Unicode="true" Nullable="false" />
-          <NavigationProperty Name="AspNetUser" Relationship="Self.FK_dbo_AspNetUserLogins_dbo_AspNetUsers_UserId" FromRole="AspNetUserLogins" ToRole="AspNetUsers" />
+          <Property Name="LoginProvider" Type="String" Nullable="false" MaxLength="128" FixedLength="false" Unicode="true" />
+          <Property Name="ProviderKey" Type="String" Nullable="false" MaxLength="128" FixedLength="false" Unicode="true" />
+          <Property Name="UserId" Type="String" Nullable="false" MaxLength="128" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="AspNetUser" Relationship="SparkMeetingRoomModel.FK_dbo_AspNetUserLogins_dbo_AspNetUsers_UserId" FromRole="AspNetUserLogin" ToRole="AspNetUser" />
         </EntityType>
         <EntityType Name="AspNetUser">
           <Key>
             <PropertyRef Name="Id" />
           </Key>
-          <Property Name="Id" Type="String" MaxLength="128" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Id" Type="String" Nullable="false" MaxLength="128" FixedLength="false" Unicode="true" />
           <Property Name="Email" Type="String" MaxLength="256" FixedLength="false" Unicode="true" />
           <Property Name="EmailConfirmed" Type="Boolean" Nullable="false" />
           <Property Name="PasswordHash" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
@@ -520,80 +616,80 @@
           <Property Name="LockoutEndDateUtc" Type="DateTime" Precision="3" />
           <Property Name="LockoutEnabled" Type="Boolean" Nullable="false" />
           <Property Name="AccessFailedCount" Type="Int32" Nullable="false" />
-          <Property Name="UserName" Type="String" MaxLength="256" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="UserName" Type="String" Nullable="false" MaxLength="256" FixedLength="false" Unicode="true" />
           <Property Name="BuildingID" Type="Int32" />
           <Property Name="Name" Type="String" MaxLength="64" FixedLength="false" Unicode="true" />
-          <NavigationProperty Name="AspNetUserClaims" Relationship="Self.FK_dbo_AspNetUserClaims_dbo_AspNetUsers_UserId" FromRole="AspNetUsers" ToRole="AspNetUserClaims" />
-          <NavigationProperty Name="AspNetUserLogins" Relationship="Self.FK_dbo_AspNetUserLogins_dbo_AspNetUsers_UserId" FromRole="AspNetUsers" ToRole="AspNetUserLogins" />
-          <NavigationProperty Name="Building" Relationship="Self.FK_AspNetUsers_Building" FromRole="AspNetUsers" ToRole="Buildings" />
-          <NavigationProperty Name="Bookings" Relationship="Self.FK_Booking_User" FromRole="AspNetUsers" ToRole="Bookings" />
-          <NavigationProperty Name="BookingHistories" Relationship="Self.FK_BookingHistory_User" FromRole="AspNetUsers" ToRole="BookingHistories" />
-          <NavigationProperty Name="AspNetRoles" Relationship="Self.AspNetUserRoles" FromRole="AspNetUsers" ToRole="AspNetRoles" />
+          <NavigationProperty Name="AspNetUserClaims" Relationship="SparkMeetingRoomModel.FK_dbo_AspNetUserClaims_dbo_AspNetUsers_UserId" FromRole="AspNetUser" ToRole="AspNetUserClaim" />
+          <NavigationProperty Name="AspNetUserLogins" Relationship="SparkMeetingRoomModel.FK_dbo_AspNetUserLogins_dbo_AspNetUsers_UserId" FromRole="AspNetUser" ToRole="AspNetUserLogin" />
+          <NavigationProperty Name="Building" Relationship="SparkMeetingRoomModel.FK_AspNetUsers_Building" FromRole="AspNetUser" ToRole="Building" />
+          <NavigationProperty Name="Bookings" Relationship="SparkMeetingRoomModel.FK_Booking_User" FromRole="AspNetUser" ToRole="Booking" />
+          <NavigationProperty Name="BookingHistories" Relationship="SparkMeetingRoomModel.FK_BookingHistory_User" FromRole="AspNetUser" ToRole="BookingHistory" />
+          <NavigationProperty Name="AspNetRoles" Relationship="SparkMeetingRoomModel.AspNetUserRoles" FromRole="AspNetUser" ToRole="AspNetRole" />
         </EntityType>
         <EntityType Name="Asset">
           <Key>
             <PropertyRef Name="AssetID" />
           </Key>
           <Property Name="AssetID" Type="Int32" Nullable="false" />
-          <Property Name="Name" Type="String" MaxLength="128" FixedLength="false" Unicode="true" Nullable="false" />
-          <Property Name="Description" Type="String" MaxLength="512" FixedLength="false" Unicode="true" Nullable="false" />
-          <Property Name="ShowAs" Type="String" MaxLength="512" FixedLength="false" Unicode="true" Nullable="false" />
-          <NavigationProperty Name="RoomAssets" Relationship="Self.FK_RoomAsset_Asset" FromRole="Assets" ToRole="RoomAssets" />
+          <Property Name="Name" Type="String" Nullable="false" MaxLength="128" FixedLength="false" Unicode="true" />
+          <Property Name="Description" Type="String" Nullable="false" MaxLength="512" FixedLength="false" Unicode="true" />
+          <Property Name="ShowAs" Type="String" Nullable="false" MaxLength="512" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="RoomAssets" Relationship="SparkMeetingRoomModel.FK_RoomAsset_Asset" FromRole="Asset" ToRole="RoomAsset" />
         </EntityType>
         <EntityType Name="BookingHistory">
           <Key>
             <PropertyRef Name="BookingHistoryID" />
           </Key>
           <Property Name="BookingHistoryID" Type="Int32" Nullable="false" />
-          <Property Name="AspNetUserID" Type="String" MaxLength="128" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="AspNetUserID" Type="String" Nullable="false" MaxLength="128" FixedLength="false" Unicode="true" />
           <Property Name="BookingID" Type="Int32" Nullable="false" />
           <Property Name="ChangeDate" Type="DateTime" Nullable="false" Precision="3" />
-          <Property Name="ChangeText" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" Nullable="false" />
-          <NavigationProperty Name="AspNetUser" Relationship="Self.FK_BookingHistory_User" FromRole="BookingHistories" ToRole="AspNetUsers" />
-          <NavigationProperty Name="Booking" Relationship="Self.FK_BookingHistory_Booking" FromRole="BookingHistories" ToRole="Bookings" />
+          <Property Name="ChangeText" Type="String" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="AspNetUser" Relationship="SparkMeetingRoomModel.FK_BookingHistory_User" FromRole="BookingHistory" ToRole="AspNetUser" />
+          <NavigationProperty Name="Booking" Relationship="SparkMeetingRoomModel.FK_BookingHistory_Booking" FromRole="BookingHistory" ToRole="Booking" />
         </EntityType>
         <EntityType Name="Booking">
           <Key>
             <PropertyRef Name="BookingID" />
           </Key>
           <Property Name="BookingID" Type="Int32" Nullable="false" />
-          <Property Name="BookingReference" Type="String" MaxLength="128" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="BookingReference" Type="String" Nullable="false" MaxLength="128" FixedLength="false" Unicode="true" />
           <Property Name="RoomID" Type="Int32" Nullable="false" />
-          <Property Name="AspNetUserID" Type="String" MaxLength="128" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="AspNetUserID" Type="String" Nullable="false" MaxLength="128" FixedLength="false" Unicode="true" />
           <Property Name="CreatedDate" Type="DateTime" Nullable="false" Precision="3" />
           <Property Name="StartDate" Type="DateTime" Nullable="false" Precision="3" />
           <Property Name="EndDate" Type="DateTime" Nullable="false" Precision="3" />
           <Property Name="BookingStatusID" Type="Int32" Nullable="false" />
-          <NavigationProperty Name="AspNetUser" Relationship="Self.FK_Booking_User" FromRole="Bookings" ToRole="AspNetUsers" />
-          <NavigationProperty Name="BookingHistories" Relationship="Self.FK_BookingHistory_Booking" FromRole="Bookings" ToRole="BookingHistories" />
-          <NavigationProperty Name="BookingStatus" Relationship="Self.FK_Booking_BookingStatus" FromRole="Bookings" ToRole="BookingStatuses" />
-          <NavigationProperty Name="Room" Relationship="Self.FK_Booking_Room" FromRole="Bookings" ToRole="Rooms" />
+          <NavigationProperty Name="AspNetUser" Relationship="SparkMeetingRoomModel.FK_Booking_User" FromRole="Booking" ToRole="AspNetUser" />
+          <NavigationProperty Name="BookingHistories" Relationship="SparkMeetingRoomModel.FK_BookingHistory_Booking" FromRole="Booking" ToRole="BookingHistory" />
+          <NavigationProperty Name="BookingStatus" Relationship="SparkMeetingRoomModel.FK_Booking_BookingStatus" FromRole="Booking" ToRole="BookingStatus" />
+          <NavigationProperty Name="Room" Relationship="SparkMeetingRoomModel.FK_Booking_Room" FromRole="Booking" ToRole="Room" />
         </EntityType>
         <EntityType Name="BookingStatus">
           <Key>
             <PropertyRef Name="BookingStatusID" />
           </Key>
           <Property Name="BookingStatusID" Type="Int32" Nullable="false" />
-          <Property Name="Name" Type="String" MaxLength="128" FixedLength="false" Unicode="true" Nullable="false" />
-          <Property Name="Description" Type="String" MaxLength="512" FixedLength="false" Unicode="true" Nullable="false" />
-          <NavigationProperty Name="Bookings" Relationship="Self.FK_Booking_BookingStatus" FromRole="BookingStatuses" ToRole="Bookings" />
-          <NavigationProperty Name="Rooms" Relationship="Self.FK_Room_BookingStatus" FromRole="BookingStatuses" ToRole="Rooms" />
+          <Property Name="Name" Type="String" Nullable="false" MaxLength="128" FixedLength="false" Unicode="true" />
+          <Property Name="Description" Type="String" Nullable="false" MaxLength="512" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="Bookings" Relationship="SparkMeetingRoomModel.FK_Booking_BookingStatus" FromRole="BookingStatus" ToRole="Booking" />
+          <NavigationProperty Name="Rooms" Relationship="SparkMeetingRoomModel.FK_Room_BookingStatus" FromRole="BookingStatus" ToRole="Room" />
         </EntityType>
         <EntityType Name="Building">
           <Key>
             <PropertyRef Name="BuildingID" />
           </Key>
           <Property Name="BuildingID" Type="Int32" Nullable="false" />
-          <Property Name="BuildingCode" Type="String" MaxLength="32" FixedLength="false" Unicode="true" Nullable="false" />
-          <Property Name="Name" Type="String" MaxLength="256" FixedLength="false" Unicode="true" Nullable="false" />
-          <Property Name="Country" Type="String" MaxLength="128" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="BuildingCode" Type="String" Nullable="false" MaxLength="32" FixedLength="false" Unicode="true" />
+          <Property Name="Name" Type="String" Nullable="false" MaxLength="256" FixedLength="false" Unicode="true" />
+          <Property Name="Country" Type="String" Nullable="false" MaxLength="128" FixedLength="false" Unicode="true" />
           <Property Name="Address" Type="String" MaxLength="256" FixedLength="false" Unicode="true" />
           <Property Name="Description" Type="String" MaxLength="1024" FixedLength="false" Unicode="true" />
           <Property Name="ImageUrl" Type="String" MaxLength="512" FixedLength="false" Unicode="true" />
           <Property Name="OpenHour" Type="Time" Nullable="false" Precision="7" />
           <Property Name="CloseHour" Type="Time" Nullable="false" Precision="7" />
-          <NavigationProperty Name="AspNetUsers" Relationship="Self.FK_AspNetUsers_Building" FromRole="Buildings" ToRole="AspNetUsers" />
-          <NavigationProperty Name="Rooms" Relationship="Self.FK_Room_Building" FromRole="Buildings" ToRole="Rooms" />
+          <NavigationProperty Name="AspNetUsers" Relationship="SparkMeetingRoomModel.FK_AspNetUsers_Building" FromRole="Building" ToRole="AspNetUser" />
+          <NavigationProperty Name="Rooms" Relationship="SparkMeetingRoomModel.FK_Room_Building" FromRole="Building" ToRole="Room" />
         </EntityType>
         <EntityType Name="Log">
           <Key>
@@ -602,20 +698,20 @@
           <Property Name="LogID" Type="Int32" Nullable="false" />
           <Property Name="LogTypeID" Type="Int32" Nullable="false" />
           <Property Name="DateTime" Type="DateTime" Nullable="false" Precision="3" />
-          <Property Name="Location" Type="String" MaxLength="256" FixedLength="false" Unicode="true" Nullable="false" />
-          <Property Name="Message" Type="String" MaxLength="512" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Location" Type="String" Nullable="false" MaxLength="256" FixedLength="false" Unicode="true" />
+          <Property Name="Message" Type="String" Nullable="false" MaxLength="512" FixedLength="false" Unicode="true" />
           <Property Name="InnerException" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
           <Property Name="Params" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
-          <NavigationProperty Name="LogType" Relationship="Self.FK_Log_LogType" FromRole="Logs" ToRole="LogTypes" />
+          <NavigationProperty Name="LogType" Relationship="SparkMeetingRoomModel.FK_Log_LogType" FromRole="Log" ToRole="LogType" />
         </EntityType>
         <EntityType Name="LogType">
           <Key>
             <PropertyRef Name="LogTypeID" />
           </Key>
           <Property Name="LogTypeID" Type="Int32" Nullable="false" />
-          <Property Name="Name" Type="String" MaxLength="128" FixedLength="false" Unicode="true" Nullable="false" />
-          <Property Name="Description" Type="String" MaxLength="256" FixedLength="false" Unicode="true" Nullable="false" />
-          <NavigationProperty Name="Logs" Relationship="Self.FK_Log_LogType" FromRole="LogTypes" ToRole="Logs" />
+          <Property Name="Name" Type="String" Nullable="false" MaxLength="128" FixedLength="false" Unicode="true" />
+          <Property Name="Description" Type="String" Nullable="false" MaxLength="256" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="Logs" Relationship="SparkMeetingRoomModel.FK_Log_LogType" FromRole="LogType" ToRole="Log" />
         </EntityType>
         <EntityType Name="RoomAsset">
           <Key>
@@ -625,8 +721,8 @@
           <Property Name="RoomID" Type="Int32" Nullable="false" />
           <Property Name="AssetID" Type="Int32" Nullable="false" />
           <Property Name="Description" Type="String" MaxLength="512" FixedLength="false" Unicode="true" />
-          <NavigationProperty Name="Asset" Relationship="Self.FK_RoomAsset_Asset" FromRole="RoomAssets" ToRole="Assets" />
-          <NavigationProperty Name="Room" Relationship="Self.FK_RoomAsset_Room" FromRole="RoomAssets" ToRole="Rooms" />
+          <NavigationProperty Name="Asset" Relationship="SparkMeetingRoomModel.FK_RoomAsset_Asset" FromRole="RoomAsset" ToRole="Asset" />
+          <NavigationProperty Name="Room" Relationship="SparkMeetingRoomModel.FK_RoomAsset_Room" FromRole="RoomAsset" ToRole="Room" />
         </EntityType>
         <EntityType Name="RoomRole">
           <Key>
@@ -634,9 +730,9 @@
           </Key>
           <Property Name="RoomRoleID" Type="Int32" Nullable="false" />
           <Property Name="RoomID" Type="Int32" Nullable="false" />
-          <Property Name="AspNetRoleID" Type="String" MaxLength="128" FixedLength="false" Unicode="true" Nullable="false" />
-          <NavigationProperty Name="AspNetRole" Relationship="Self.FK_RoomRole_AspNetRoles" FromRole="RoomRoles" ToRole="AspNetRoles" />
-          <NavigationProperty Name="Room" Relationship="Self.FK_RoomRole_Room" FromRole="RoomRoles" ToRole="Rooms" />
+          <Property Name="AspNetRoleID" Type="String" Nullable="false" MaxLength="128" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="AspNetRole" Relationship="SparkMeetingRoomModel.FK_RoomRole_AspNetRoles" FromRole="RoomRole" ToRole="AspNetRole" />
+          <NavigationProperty Name="Room" Relationship="SparkMeetingRoomModel.FK_RoomRole_Room" FromRole="RoomRole" ToRole="Room" />
         </EntityType>
         <EntityType Name="Room">
           <Key>
@@ -644,299 +740,232 @@
           </Key>
           <Property Name="RoomID" Type="Int32" Nullable="false" />
           <Property Name="BuildingID" Type="Int32" Nullable="false" />
-          <Property Name="Floor" Type="String" MaxLength="16" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Floor" Type="String" Nullable="false" MaxLength="16" FixedLength="false" Unicode="true" />
           <Property Name="Capacity" Type="Int32" Nullable="false" />
-          <Property Name="RoomCode" Type="String" MaxLength="32" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="RoomCode" Type="String" Nullable="false" MaxLength="32" FixedLength="false" Unicode="true" />
           <Property Name="DefaultBookingStatusID" Type="Int32" Nullable="false" />
           <Property Name="MaximumBookingHours" Type="Time" Precision="7" />
-          <Property Name="Name" Type="String" MaxLength="256" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Name" Type="String" Nullable="false" MaxLength="256" FixedLength="false" Unicode="true" />
           <Property Name="Description" Type="String" MaxLength="1024" FixedLength="false" Unicode="true" />
           <Property Name="ImgUrl" Type="String" MaxLength="512" FixedLength="false" Unicode="true" />
-          <NavigationProperty Name="Bookings" Relationship="Self.FK_Booking_Room" FromRole="Rooms" ToRole="Bookings" />
-          <NavigationProperty Name="BookingStatus" Relationship="Self.FK_Room_BookingStatus" FromRole="Rooms" ToRole="BookingStatuses" />
-          <NavigationProperty Name="Building" Relationship="Self.FK_Room_Building" FromRole="Rooms" ToRole="Buildings" />
-          <NavigationProperty Name="RoomAssets" Relationship="Self.FK_RoomAsset_Room" FromRole="Rooms" ToRole="RoomAssets" />
-          <NavigationProperty Name="RoomRoles" Relationship="Self.FK_RoomRole_Room" FromRole="Rooms" ToRole="RoomRoles" />
+          <NavigationProperty Name="Bookings" Relationship="SparkMeetingRoomModel.FK_Booking_Room" FromRole="Room" ToRole="Booking" />
+          <NavigationProperty Name="BookingStatus" Relationship="SparkMeetingRoomModel.FK_Room_BookingStatus" FromRole="Room" ToRole="BookingStatus" />
+          <NavigationProperty Name="Building" Relationship="SparkMeetingRoomModel.FK_Room_Building" FromRole="Room" ToRole="Building" />
+          <NavigationProperty Name="RoomAssets" Relationship="SparkMeetingRoomModel.FK_RoomAsset_Room" FromRole="Room" ToRole="RoomAsset" />
+          <NavigationProperty Name="RoomRoles" Relationship="SparkMeetingRoomModel.FK_RoomRole_Room" FromRole="Room" ToRole="RoomRole" />
+        </EntityType>
+        <EntityType Name="SparkMeetingUser">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="FirstName" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
+          <Property Name="LastName" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
+          <Property Name="Email" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
+          <Property Name="IsActive" Type="Boolean" />
+          <Property Name="UserName" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
+          <Property Name="Password" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
+          <Property Name="Salt" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="CreationDate" Type="DateTime" Precision="3" />
         </EntityType>
         <EntityType Name="sysdiagram">
           <Key>
             <PropertyRef Name="diagram_id" />
           </Key>
-          <Property Name="name" Type="String" MaxLength="128" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="name" Type="String" Nullable="false" MaxLength="128" FixedLength="false" Unicode="true" />
           <Property Name="principal_id" Type="Int32" Nullable="false" />
           <Property Name="diagram_id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="version" Type="Int32" />
           <Property Name="definition" Type="Binary" MaxLength="Max" FixedLength="false" />
         </EntityType>
         <Association Name="FK_RoomRole_AspNetRoles">
-          <End Role="AspNetRoles" Type="Self.AspNetRole" Multiplicity="1" />
-          <End Role="RoomRoles" Type="Self.RoomRole" Multiplicity="*" />
+          <End Type="SparkMeetingRoomModel.AspNetRole" Role="AspNetRole" Multiplicity="1" />
+          <End Type="SparkMeetingRoomModel.RoomRole" Role="RoomRole" Multiplicity="*" />
           <ReferentialConstraint>
-            <Principal Role="AspNetRoles">
+            <Principal Role="AspNetRole">
               <PropertyRef Name="Id" />
             </Principal>
-            <Dependent Role="RoomRoles">
+            <Dependent Role="RoomRole">
               <PropertyRef Name="AspNetRoleID" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
         <Association Name="FK_dbo_AspNetUserClaims_dbo_AspNetUsers_UserId">
-          <End Role="AspNetUsers" Type="Self.AspNetUser" Multiplicity="1">
+          <End Type="SparkMeetingRoomModel.AspNetUser" Role="AspNetUser" Multiplicity="1">
             <OnDelete Action="Cascade" />
           </End>
-          <End Role="AspNetUserClaims" Type="Self.AspNetUserClaim" Multiplicity="*" />
+          <End Type="SparkMeetingRoomModel.AspNetUserClaim" Role="AspNetUserClaim" Multiplicity="*" />
           <ReferentialConstraint>
-            <Principal Role="AspNetUsers">
+            <Principal Role="AspNetUser">
               <PropertyRef Name="Id" />
             </Principal>
-            <Dependent Role="AspNetUserClaims">
+            <Dependent Role="AspNetUserClaim">
               <PropertyRef Name="UserId" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
         <Association Name="FK_dbo_AspNetUserLogins_dbo_AspNetUsers_UserId">
-          <End Role="AspNetUsers" Type="Self.AspNetUser" Multiplicity="1">
+          <End Type="SparkMeetingRoomModel.AspNetUser" Role="AspNetUser" Multiplicity="1">
             <OnDelete Action="Cascade" />
           </End>
-          <End Role="AspNetUserLogins" Type="Self.AspNetUserLogin" Multiplicity="*" />
+          <End Type="SparkMeetingRoomModel.AspNetUserLogin" Role="AspNetUserLogin" Multiplicity="*" />
           <ReferentialConstraint>
-            <Principal Role="AspNetUsers">
+            <Principal Role="AspNetUser">
               <PropertyRef Name="Id" />
             </Principal>
-            <Dependent Role="AspNetUserLogins">
+            <Dependent Role="AspNetUserLogin">
               <PropertyRef Name="UserId" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
         <Association Name="FK_AspNetUsers_Building">
-          <End Role="Buildings" Type="Self.Building" Multiplicity="0..1" />
-          <End Role="AspNetUsers" Type="Self.AspNetUser" Multiplicity="*" />
+          <End Type="SparkMeetingRoomModel.Building" Role="Building" Multiplicity="0..1" />
+          <End Type="SparkMeetingRoomModel.AspNetUser" Role="AspNetUser" Multiplicity="*" />
           <ReferentialConstraint>
-            <Principal Role="Buildings">
+            <Principal Role="Building">
               <PropertyRef Name="BuildingID" />
             </Principal>
-            <Dependent Role="AspNetUsers">
+            <Dependent Role="AspNetUser">
               <PropertyRef Name="BuildingID" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
         <Association Name="FK_Booking_User">
-          <End Role="AspNetUsers" Type="Self.AspNetUser" Multiplicity="1" />
-          <End Role="Bookings" Type="Self.Booking" Multiplicity="*" />
+          <End Type="SparkMeetingRoomModel.AspNetUser" Role="AspNetUser" Multiplicity="1" />
+          <End Type="SparkMeetingRoomModel.Booking" Role="Booking" Multiplicity="*" />
           <ReferentialConstraint>
-            <Principal Role="AspNetUsers">
+            <Principal Role="AspNetUser">
               <PropertyRef Name="Id" />
             </Principal>
-            <Dependent Role="Bookings">
+            <Dependent Role="Booking">
               <PropertyRef Name="AspNetUserID" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
         <Association Name="FK_BookingHistory_User">
-          <End Role="AspNetUsers" Type="Self.AspNetUser" Multiplicity="1" />
-          <End Role="BookingHistories" Type="Self.BookingHistory" Multiplicity="*" />
+          <End Type="SparkMeetingRoomModel.AspNetUser" Role="AspNetUser" Multiplicity="1" />
+          <End Type="SparkMeetingRoomModel.BookingHistory" Role="BookingHistory" Multiplicity="*" />
           <ReferentialConstraint>
-            <Principal Role="AspNetUsers">
+            <Principal Role="AspNetUser">
               <PropertyRef Name="Id" />
             </Principal>
-            <Dependent Role="BookingHistories">
+            <Dependent Role="BookingHistory">
               <PropertyRef Name="AspNetUserID" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
         <Association Name="FK_RoomAsset_Asset">
-          <End Role="Assets" Type="Self.Asset" Multiplicity="1" />
-          <End Role="RoomAssets" Type="Self.RoomAsset" Multiplicity="*" />
+          <End Type="SparkMeetingRoomModel.Asset" Role="Asset" Multiplicity="1" />
+          <End Type="SparkMeetingRoomModel.RoomAsset" Role="RoomAsset" Multiplicity="*" />
           <ReferentialConstraint>
-            <Principal Role="Assets">
+            <Principal Role="Asset">
               <PropertyRef Name="AssetID" />
             </Principal>
-            <Dependent Role="RoomAssets">
+            <Dependent Role="RoomAsset">
               <PropertyRef Name="AssetID" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
         <Association Name="FK_BookingHistory_Booking">
-          <End Role="Bookings" Type="Self.Booking" Multiplicity="1" />
-          <End Role="BookingHistories" Type="Self.BookingHistory" Multiplicity="*" />
+          <End Type="SparkMeetingRoomModel.Booking" Role="Booking" Multiplicity="1" />
+          <End Type="SparkMeetingRoomModel.BookingHistory" Role="BookingHistory" Multiplicity="*" />
           <ReferentialConstraint>
-            <Principal Role="Bookings">
+            <Principal Role="Booking">
               <PropertyRef Name="BookingID" />
             </Principal>
-            <Dependent Role="BookingHistories">
+            <Dependent Role="BookingHistory">
               <PropertyRef Name="BookingID" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
         <Association Name="FK_Booking_BookingStatus">
-          <End Role="BookingStatuses" Type="Self.BookingStatus" Multiplicity="1" />
-          <End Role="Bookings" Type="Self.Booking" Multiplicity="*" />
+          <End Type="SparkMeetingRoomModel.BookingStatus" Role="BookingStatus" Multiplicity="1" />
+          <End Type="SparkMeetingRoomModel.Booking" Role="Booking" Multiplicity="*" />
           <ReferentialConstraint>
-            <Principal Role="BookingStatuses">
+            <Principal Role="BookingStatus">
               <PropertyRef Name="BookingStatusID" />
             </Principal>
-            <Dependent Role="Bookings">
+            <Dependent Role="Booking">
               <PropertyRef Name="BookingStatusID" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
         <Association Name="FK_Booking_Room">
-          <End Role="Rooms" Type="Self.Room" Multiplicity="1" />
-          <End Role="Bookings" Type="Self.Booking" Multiplicity="*" />
+          <End Type="SparkMeetingRoomModel.Room" Role="Room" Multiplicity="1" />
+          <End Type="SparkMeetingRoomModel.Booking" Role="Booking" Multiplicity="*" />
           <ReferentialConstraint>
-            <Principal Role="Rooms">
+            <Principal Role="Room">
               <PropertyRef Name="RoomID" />
             </Principal>
-            <Dependent Role="Bookings">
+            <Dependent Role="Booking">
               <PropertyRef Name="RoomID" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
         <Association Name="FK_Room_BookingStatus">
-          <End Role="BookingStatuses" Type="Self.BookingStatus" Multiplicity="1" />
-          <End Role="Rooms" Type="Self.Room" Multiplicity="*" />
+          <End Type="SparkMeetingRoomModel.BookingStatus" Role="BookingStatus" Multiplicity="1" />
+          <End Type="SparkMeetingRoomModel.Room" Role="Room" Multiplicity="*" />
           <ReferentialConstraint>
-            <Principal Role="BookingStatuses">
+            <Principal Role="BookingStatus">
               <PropertyRef Name="BookingStatusID" />
             </Principal>
-            <Dependent Role="Rooms">
+            <Dependent Role="Room">
               <PropertyRef Name="DefaultBookingStatusID" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
         <Association Name="FK_Room_Building">
-          <End Role="Buildings" Type="Self.Building" Multiplicity="1" />
-          <End Role="Rooms" Type="Self.Room" Multiplicity="*" />
+          <End Type="SparkMeetingRoomModel.Building" Role="Building" Multiplicity="1" />
+          <End Type="SparkMeetingRoomModel.Room" Role="Room" Multiplicity="*" />
           <ReferentialConstraint>
-            <Principal Role="Buildings">
+            <Principal Role="Building">
               <PropertyRef Name="BuildingID" />
             </Principal>
-            <Dependent Role="Rooms">
+            <Dependent Role="Room">
               <PropertyRef Name="BuildingID" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
         <Association Name="FK_Log_LogType">
-          <End Role="LogTypes" Type="Self.LogType" Multiplicity="1" />
-          <End Role="Logs" Type="Self.Log" Multiplicity="*" />
+          <End Type="SparkMeetingRoomModel.LogType" Role="LogType" Multiplicity="1" />
+          <End Type="SparkMeetingRoomModel.Log" Role="Log" Multiplicity="*" />
           <ReferentialConstraint>
-            <Principal Role="LogTypes">
+            <Principal Role="LogType">
               <PropertyRef Name="LogTypeID" />
             </Principal>
-            <Dependent Role="Logs">
+            <Dependent Role="Log">
               <PropertyRef Name="LogTypeID" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
         <Association Name="FK_RoomAsset_Room">
-          <End Role="Rooms" Type="Self.Room" Multiplicity="1" />
-          <End Role="RoomAssets" Type="Self.RoomAsset" Multiplicity="*" />
+          <End Type="SparkMeetingRoomModel.Room" Role="Room" Multiplicity="1" />
+          <End Type="SparkMeetingRoomModel.RoomAsset" Role="RoomAsset" Multiplicity="*" />
           <ReferentialConstraint>
-            <Principal Role="Rooms">
+            <Principal Role="Room">
               <PropertyRef Name="RoomID" />
             </Principal>
-            <Dependent Role="RoomAssets">
+            <Dependent Role="RoomAsset">
               <PropertyRef Name="RoomID" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
         <Association Name="FK_RoomRole_Room">
-          <End Role="Rooms" Type="Self.Room" Multiplicity="1" />
-          <End Role="RoomRoles" Type="Self.RoomRole" Multiplicity="*" />
+          <End Type="SparkMeetingRoomModel.Room" Role="Room" Multiplicity="1" />
+          <End Type="SparkMeetingRoomModel.RoomRole" Role="RoomRole" Multiplicity="*" />
           <ReferentialConstraint>
-            <Principal Role="Rooms">
+            <Principal Role="Room">
               <PropertyRef Name="RoomID" />
             </Principal>
-            <Dependent Role="RoomRoles">
+            <Dependent Role="RoomRole">
               <PropertyRef Name="RoomID" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
         <Association Name="AspNetUserRoles">
-          <End Role="AspNetRoles" Type="Self.AspNetRole" Multiplicity="*" />
-          <End Role="AspNetUsers" Type="Self.AspNetUser" Multiplicity="*" />
+          <End Type="SparkMeetingRoomModel.AspNetRole" Role="AspNetRole" Multiplicity="*" />
+          <End Type="SparkMeetingRoomModel.AspNetUser" Role="AspNetUser" Multiplicity="*" />
         </Association>
-        <EntityContainer Name="SparkMeetingRoomEntities" annotation:LazyLoadingEnabled="true">
-          <EntitySet Name="AspNetRoles" EntityType="Self.AspNetRole" />
-          <EntitySet Name="AspNetUserClaims" EntityType="Self.AspNetUserClaim" />
-          <EntitySet Name="AspNetUserLogins" EntityType="Self.AspNetUserLogin" />
-          <EntitySet Name="AspNetUsers" EntityType="Self.AspNetUser" />
-          <EntitySet Name="Assets" EntityType="Self.Asset" />
-          <EntitySet Name="BookingHistories" EntityType="Self.BookingHistory" />
-          <EntitySet Name="Bookings" EntityType="Self.Booking" />
-          <EntitySet Name="BookingStatuses" EntityType="Self.BookingStatus" />
-          <EntitySet Name="Buildings" EntityType="Self.Building" />
-          <EntitySet Name="Logs" EntityType="Self.Log" />
-          <EntitySet Name="LogTypes" EntityType="Self.LogType" />
-          <EntitySet Name="RoomAssets" EntityType="Self.RoomAsset" />
-          <EntitySet Name="RoomRoles" EntityType="Self.RoomRole" />
-          <EntitySet Name="Rooms" EntityType="Self.Room" />
-          <EntitySet Name="sysdiagrams" EntityType="Self.sysdiagram" />
-          <AssociationSet Name="FK_RoomRole_AspNetRoles" Association="Self.FK_RoomRole_AspNetRoles">
-            <End Role="AspNetRoles" EntitySet="AspNetRoles" />
-            <End Role="RoomRoles" EntitySet="RoomRoles" />
-          </AssociationSet>
-          <AssociationSet Name="FK_dbo_AspNetUserClaims_dbo_AspNetUsers_UserId" Association="Self.FK_dbo_AspNetUserClaims_dbo_AspNetUsers_UserId">
-            <End Role="AspNetUsers" EntitySet="AspNetUsers" />
-            <End Role="AspNetUserClaims" EntitySet="AspNetUserClaims" />
-          </AssociationSet>
-          <AssociationSet Name="FK_dbo_AspNetUserLogins_dbo_AspNetUsers_UserId" Association="Self.FK_dbo_AspNetUserLogins_dbo_AspNetUsers_UserId">
-            <End Role="AspNetUsers" EntitySet="AspNetUsers" />
-            <End Role="AspNetUserLogins" EntitySet="AspNetUserLogins" />
-          </AssociationSet>
-          <AssociationSet Name="FK_AspNetUsers_Building" Association="Self.FK_AspNetUsers_Building">
-            <End Role="Buildings" EntitySet="Buildings" />
-            <End Role="AspNetUsers" EntitySet="AspNetUsers" />
-          </AssociationSet>
-          <AssociationSet Name="FK_Booking_User" Association="Self.FK_Booking_User">
-            <End Role="AspNetUsers" EntitySet="AspNetUsers" />
-            <End Role="Bookings" EntitySet="Bookings" />
-          </AssociationSet>
-          <AssociationSet Name="FK_BookingHistory_User" Association="Self.FK_BookingHistory_User">
-            <End Role="AspNetUsers" EntitySet="AspNetUsers" />
-            <End Role="BookingHistories" EntitySet="BookingHistories" />
-          </AssociationSet>
-          <AssociationSet Name="FK_RoomAsset_Asset" Association="Self.FK_RoomAsset_Asset">
-            <End Role="Assets" EntitySet="Assets" />
-            <End Role="RoomAssets" EntitySet="RoomAssets" />
-          </AssociationSet>
-          <AssociationSet Name="FK_BookingHistory_Booking" Association="Self.FK_BookingHistory_Booking">
-            <End Role="Bookings" EntitySet="Bookings" />
-            <End Role="BookingHistories" EntitySet="BookingHistories" />
-          </AssociationSet>
-          <AssociationSet Name="FK_Booking_BookingStatus" Association="Self.FK_Booking_BookingStatus">
-            <End Role="BookingStatuses" EntitySet="BookingStatuses" />
-            <End Role="Bookings" EntitySet="Bookings" />
-          </AssociationSet>
-          <AssociationSet Name="FK_Booking_Room" Association="Self.FK_Booking_Room">
-            <End Role="Rooms" EntitySet="Rooms" />
-            <End Role="Bookings" EntitySet="Bookings" />
-          </AssociationSet>
-          <AssociationSet Name="FK_Room_BookingStatus" Association="Self.FK_Room_BookingStatus">
-            <End Role="BookingStatuses" EntitySet="BookingStatuses" />
-            <End Role="Rooms" EntitySet="Rooms" />
-          </AssociationSet>
-          <AssociationSet Name="FK_Room_Building" Association="Self.FK_Room_Building">
-            <End Role="Buildings" EntitySet="Buildings" />
-            <End Role="Rooms" EntitySet="Rooms" />
-          </AssociationSet>
-          <AssociationSet Name="FK_Log_LogType" Association="Self.FK_Log_LogType">
-            <End Role="LogTypes" EntitySet="LogTypes" />
-            <End Role="Logs" EntitySet="Logs" />
-          </AssociationSet>
-          <AssociationSet Name="FK_RoomAsset_Room" Association="Self.FK_RoomAsset_Room">
-            <End Role="Rooms" EntitySet="Rooms" />
-            <End Role="RoomAssets" EntitySet="RoomAssets" />
-          </AssociationSet>
-          <AssociationSet Name="FK_RoomRole_Room" Association="Self.FK_RoomRole_Room">
-            <End Role="Rooms" EntitySet="Rooms" />
-            <End Role="RoomRoles" EntitySet="RoomRoles" />
-          </AssociationSet>
-          <AssociationSet Name="AspNetUserRoles" Association="Self.AspNetUserRoles">
-            <End Role="AspNetRoles" EntitySet="AspNetRoles" />
-            <End Role="AspNetUsers" EntitySet="AspNetUsers" />
-          </AssociationSet>
-        </EntityContainer>
       </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -946,184 +975,199 @@
           <EntitySetMapping Name="AspNetRoles">
             <EntityTypeMapping TypeName="SparkMeetingRoomModel.AspNetRole">
               <MappingFragment StoreEntitySet="AspNetRoles">
-                <ScalarProperty Name="Id" ColumnName="Id" />
-                <ScalarProperty Name="Name" ColumnName="Name" />
                 <ScalarProperty Name="Order" ColumnName="Order" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="AspNetUserClaims">
             <EntityTypeMapping TypeName="SparkMeetingRoomModel.AspNetUserClaim">
               <MappingFragment StoreEntitySet="AspNetUserClaims">
-                <ScalarProperty Name="Id" ColumnName="Id" />
-                <ScalarProperty Name="UserId" ColumnName="UserId" />
-                <ScalarProperty Name="ClaimType" ColumnName="ClaimType" />
                 <ScalarProperty Name="ClaimValue" ColumnName="ClaimValue" />
+                <ScalarProperty Name="ClaimType" ColumnName="ClaimType" />
+                <ScalarProperty Name="UserId" ColumnName="UserId" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="AspNetUserLogins">
             <EntityTypeMapping TypeName="SparkMeetingRoomModel.AspNetUserLogin">
               <MappingFragment StoreEntitySet="AspNetUserLogins">
-                <ScalarProperty Name="LoginProvider" ColumnName="LoginProvider" />
-                <ScalarProperty Name="ProviderKey" ColumnName="ProviderKey" />
                 <ScalarProperty Name="UserId" ColumnName="UserId" />
+                <ScalarProperty Name="ProviderKey" ColumnName="ProviderKey" />
+                <ScalarProperty Name="LoginProvider" ColumnName="LoginProvider" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="AspNetUsers">
             <EntityTypeMapping TypeName="SparkMeetingRoomModel.AspNetUser">
               <MappingFragment StoreEntitySet="AspNetUsers">
-                <ScalarProperty Name="Id" ColumnName="Id" />
-                <ScalarProperty Name="Email" ColumnName="Email" />
-                <ScalarProperty Name="EmailConfirmed" ColumnName="EmailConfirmed" />
-                <ScalarProperty Name="PasswordHash" ColumnName="PasswordHash" />
-                <ScalarProperty Name="SecurityStamp" ColumnName="SecurityStamp" />
-                <ScalarProperty Name="PhoneNumber" ColumnName="PhoneNumber" />
-                <ScalarProperty Name="PhoneNumberConfirmed" ColumnName="PhoneNumberConfirmed" />
-                <ScalarProperty Name="TwoFactorEnabled" ColumnName="TwoFactorEnabled" />
-                <ScalarProperty Name="LockoutEndDateUtc" ColumnName="LockoutEndDateUtc" />
-                <ScalarProperty Name="LockoutEnabled" ColumnName="LockoutEnabled" />
-                <ScalarProperty Name="AccessFailedCount" ColumnName="AccessFailedCount" />
-                <ScalarProperty Name="UserName" ColumnName="UserName" />
-                <ScalarProperty Name="BuildingID" ColumnName="BuildingID" />
                 <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="BuildingID" ColumnName="BuildingID" />
+                <ScalarProperty Name="UserName" ColumnName="UserName" />
+                <ScalarProperty Name="AccessFailedCount" ColumnName="AccessFailedCount" />
+                <ScalarProperty Name="LockoutEnabled" ColumnName="LockoutEnabled" />
+                <ScalarProperty Name="LockoutEndDateUtc" ColumnName="LockoutEndDateUtc" />
+                <ScalarProperty Name="TwoFactorEnabled" ColumnName="TwoFactorEnabled" />
+                <ScalarProperty Name="PhoneNumberConfirmed" ColumnName="PhoneNumberConfirmed" />
+                <ScalarProperty Name="PhoneNumber" ColumnName="PhoneNumber" />
+                <ScalarProperty Name="SecurityStamp" ColumnName="SecurityStamp" />
+                <ScalarProperty Name="PasswordHash" ColumnName="PasswordHash" />
+                <ScalarProperty Name="EmailConfirmed" ColumnName="EmailConfirmed" />
+                <ScalarProperty Name="Email" ColumnName="Email" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="Assets">
             <EntityTypeMapping TypeName="SparkMeetingRoomModel.Asset">
               <MappingFragment StoreEntitySet="Assets">
-                <ScalarProperty Name="AssetID" ColumnName="AssetID" />
-                <ScalarProperty Name="Name" ColumnName="Name" />
-                <ScalarProperty Name="Description" ColumnName="Description" />
                 <ScalarProperty Name="ShowAs" ColumnName="ShowAs" />
+                <ScalarProperty Name="Description" ColumnName="Description" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="AssetID" ColumnName="AssetID" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="BookingHistories">
             <EntityTypeMapping TypeName="SparkMeetingRoomModel.BookingHistory">
               <MappingFragment StoreEntitySet="BookingHistories">
-                <ScalarProperty Name="BookingHistoryID" ColumnName="BookingHistoryID" />
-                <ScalarProperty Name="AspNetUserID" ColumnName="AspNetUserID" />
-                <ScalarProperty Name="BookingID" ColumnName="BookingID" />
-                <ScalarProperty Name="ChangeDate" ColumnName="ChangeDate" />
                 <ScalarProperty Name="ChangeText" ColumnName="ChangeText" />
+                <ScalarProperty Name="ChangeDate" ColumnName="ChangeDate" />
+                <ScalarProperty Name="BookingID" ColumnName="BookingID" />
+                <ScalarProperty Name="AspNetUserID" ColumnName="AspNetUserID" />
+                <ScalarProperty Name="BookingHistoryID" ColumnName="BookingHistoryID" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="Bookings">
             <EntityTypeMapping TypeName="SparkMeetingRoomModel.Booking">
               <MappingFragment StoreEntitySet="Bookings">
-                <ScalarProperty Name="BookingID" ColumnName="BookingID" />
-                <ScalarProperty Name="BookingReference" ColumnName="BookingReference" />
-                <ScalarProperty Name="RoomID" ColumnName="RoomID" />
-                <ScalarProperty Name="AspNetUserID" ColumnName="AspNetUserID" />
-                <ScalarProperty Name="CreatedDate" ColumnName="CreatedDate" />
-                <ScalarProperty Name="StartDate" ColumnName="StartDate" />
-                <ScalarProperty Name="EndDate" ColumnName="EndDate" />
                 <ScalarProperty Name="BookingStatusID" ColumnName="BookingStatusID" />
+                <ScalarProperty Name="EndDate" ColumnName="EndDate" />
+                <ScalarProperty Name="StartDate" ColumnName="StartDate" />
+                <ScalarProperty Name="CreatedDate" ColumnName="CreatedDate" />
+                <ScalarProperty Name="AspNetUserID" ColumnName="AspNetUserID" />
+                <ScalarProperty Name="RoomID" ColumnName="RoomID" />
+                <ScalarProperty Name="BookingReference" ColumnName="BookingReference" />
+                <ScalarProperty Name="BookingID" ColumnName="BookingID" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="BookingStatuses">
             <EntityTypeMapping TypeName="SparkMeetingRoomModel.BookingStatus">
               <MappingFragment StoreEntitySet="BookingStatuses">
-                <ScalarProperty Name="BookingStatusID" ColumnName="BookingStatusID" />
-                <ScalarProperty Name="Name" ColumnName="Name" />
                 <ScalarProperty Name="Description" ColumnName="Description" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="BookingStatusID" ColumnName="BookingStatusID" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="Buildings">
             <EntityTypeMapping TypeName="SparkMeetingRoomModel.Building">
               <MappingFragment StoreEntitySet="Buildings">
-                <ScalarProperty Name="BuildingID" ColumnName="BuildingID" />
-                <ScalarProperty Name="BuildingCode" ColumnName="BuildingCode" />
-                <ScalarProperty Name="Name" ColumnName="Name" />
-                <ScalarProperty Name="Country" ColumnName="Country" />
-                <ScalarProperty Name="Address" ColumnName="Address" />
-                <ScalarProperty Name="Description" ColumnName="Description" />
-                <ScalarProperty Name="ImageUrl" ColumnName="ImageUrl" />
-                <ScalarProperty Name="OpenHour" ColumnName="OpenHour" />
                 <ScalarProperty Name="CloseHour" ColumnName="CloseHour" />
+                <ScalarProperty Name="OpenHour" ColumnName="OpenHour" />
+                <ScalarProperty Name="ImageUrl" ColumnName="ImageUrl" />
+                <ScalarProperty Name="Description" ColumnName="Description" />
+                <ScalarProperty Name="Address" ColumnName="Address" />
+                <ScalarProperty Name="Country" ColumnName="Country" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="BuildingCode" ColumnName="BuildingCode" />
+                <ScalarProperty Name="BuildingID" ColumnName="BuildingID" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="Logs">
             <EntityTypeMapping TypeName="SparkMeetingRoomModel.Log">
               <MappingFragment StoreEntitySet="Logs">
-                <ScalarProperty Name="LogID" ColumnName="LogID" />
-                <ScalarProperty Name="LogTypeID" ColumnName="LogTypeID" />
-                <ScalarProperty Name="DateTime" ColumnName="DateTime" />
-                <ScalarProperty Name="Location" ColumnName="Location" />
-                <ScalarProperty Name="Message" ColumnName="Message" />
-                <ScalarProperty Name="InnerException" ColumnName="InnerException" />
                 <ScalarProperty Name="Params" ColumnName="Params" />
+                <ScalarProperty Name="InnerException" ColumnName="InnerException" />
+                <ScalarProperty Name="Message" ColumnName="Message" />
+                <ScalarProperty Name="Location" ColumnName="Location" />
+                <ScalarProperty Name="DateTime" ColumnName="DateTime" />
+                <ScalarProperty Name="LogTypeID" ColumnName="LogTypeID" />
+                <ScalarProperty Name="LogID" ColumnName="LogID" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="LogTypes">
             <EntityTypeMapping TypeName="SparkMeetingRoomModel.LogType">
               <MappingFragment StoreEntitySet="LogTypes">
-                <ScalarProperty Name="LogTypeID" ColumnName="LogTypeID" />
-                <ScalarProperty Name="Name" ColumnName="Name" />
                 <ScalarProperty Name="Description" ColumnName="Description" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="LogTypeID" ColumnName="LogTypeID" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="RoomAssets">
             <EntityTypeMapping TypeName="SparkMeetingRoomModel.RoomAsset">
               <MappingFragment StoreEntitySet="RoomAssets">
-                <ScalarProperty Name="RoomAssetID" ColumnName="RoomAssetID" />
-                <ScalarProperty Name="RoomID" ColumnName="RoomID" />
-                <ScalarProperty Name="AssetID" ColumnName="AssetID" />
                 <ScalarProperty Name="Description" ColumnName="Description" />
+                <ScalarProperty Name="AssetID" ColumnName="AssetID" />
+                <ScalarProperty Name="RoomID" ColumnName="RoomID" />
+                <ScalarProperty Name="RoomAssetID" ColumnName="RoomAssetID" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="RoomRoles">
             <EntityTypeMapping TypeName="SparkMeetingRoomModel.RoomRole">
               <MappingFragment StoreEntitySet="RoomRoles">
-                <ScalarProperty Name="RoomRoleID" ColumnName="RoomRoleID" />
-                <ScalarProperty Name="RoomID" ColumnName="RoomID" />
                 <ScalarProperty Name="AspNetRoleID" ColumnName="AspNetRoleID" />
+                <ScalarProperty Name="RoomID" ColumnName="RoomID" />
+                <ScalarProperty Name="RoomRoleID" ColumnName="RoomRoleID" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="Rooms">
             <EntityTypeMapping TypeName="SparkMeetingRoomModel.Room">
               <MappingFragment StoreEntitySet="Rooms">
-                <ScalarProperty Name="RoomID" ColumnName="RoomID" />
-                <ScalarProperty Name="BuildingID" ColumnName="BuildingID" />
-                <ScalarProperty Name="Floor" ColumnName="Floor" />
-                <ScalarProperty Name="Capacity" ColumnName="Capacity" />
-                <ScalarProperty Name="RoomCode" ColumnName="RoomCode" />
-                <ScalarProperty Name="DefaultBookingStatusID" ColumnName="DefaultBookingStatusID" />
-                <ScalarProperty Name="MaximumBookingHours" ColumnName="MaximumBookingHours" />
-                <ScalarProperty Name="Name" ColumnName="Name" />
-                <ScalarProperty Name="Description" ColumnName="Description" />
                 <ScalarProperty Name="ImgUrl" ColumnName="ImgUrl" />
+                <ScalarProperty Name="Description" ColumnName="Description" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="MaximumBookingHours" ColumnName="MaximumBookingHours" />
+                <ScalarProperty Name="DefaultBookingStatusID" ColumnName="DefaultBookingStatusID" />
+                <ScalarProperty Name="RoomCode" ColumnName="RoomCode" />
+                <ScalarProperty Name="Capacity" ColumnName="Capacity" />
+                <ScalarProperty Name="Floor" ColumnName="Floor" />
+                <ScalarProperty Name="BuildingID" ColumnName="BuildingID" />
+                <ScalarProperty Name="RoomID" ColumnName="RoomID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="SparkMeetingUsers">
+            <EntityTypeMapping TypeName="SparkMeetingRoomModel.SparkMeetingUser">
+              <MappingFragment StoreEntitySet="SparkMeetingUsers">
+                <ScalarProperty Name="CreationDate" ColumnName="CreationDate" />
+                <ScalarProperty Name="Salt" ColumnName="Salt" />
+                <ScalarProperty Name="Password" ColumnName="Password" />
+                <ScalarProperty Name="UserName" ColumnName="UserName" />
+                <ScalarProperty Name="IsActive" ColumnName="IsActive" />
+                <ScalarProperty Name="Email" ColumnName="Email" />
+                <ScalarProperty Name="LastName" ColumnName="LastName" />
+                <ScalarProperty Name="FirstName" ColumnName="FirstName" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="sysdiagrams">
             <EntityTypeMapping TypeName="SparkMeetingRoomModel.sysdiagram">
               <MappingFragment StoreEntitySet="sysdiagrams">
-                <ScalarProperty Name="name" ColumnName="name" />
-                <ScalarProperty Name="principal_id" ColumnName="principal_id" />
-                <ScalarProperty Name="diagram_id" ColumnName="diagram_id" />
-                <ScalarProperty Name="version" ColumnName="version" />
                 <ScalarProperty Name="definition" ColumnName="definition" />
+                <ScalarProperty Name="version" ColumnName="version" />
+                <ScalarProperty Name="diagram_id" ColumnName="diagram_id" />
+                <ScalarProperty Name="principal_id" ColumnName="principal_id" />
+                <ScalarProperty Name="name" ColumnName="name" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
           <AssociationSetMapping Name="AspNetUserRoles" TypeName="SparkMeetingRoomModel.AspNetUserRoles" StoreEntitySet="AspNetUserRoles">
-            <EndProperty Name="AspNetRoles">
-              <ScalarProperty Name="Id" ColumnName="AspNetRoles_Id" />
-            </EndProperty>
-            <EndProperty Name="AspNetUsers">
+            <EndProperty Name="AspNetUser">
               <ScalarProperty Name="Id" ColumnName="AspNetUsers_Id" />
+            </EndProperty>
+            <EndProperty Name="AspNetRole">
+              <ScalarProperty Name="Id" ColumnName="AspNetRoles_Id" />
             </EndProperty>
           </AssociationSetMapping>
         </EntityContainerMapping>

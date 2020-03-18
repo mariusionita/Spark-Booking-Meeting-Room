@@ -4,7 +4,7 @@ using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 
-namespace Visma_Room2Meet.Controllers
+namespace SparkMeetingRoom.Controllers
 {
     [Authorize]
     public class HomeController : Controller

@@ -1,8 +1,8 @@
-﻿@model Visma_Room2Meet.Room
+﻿@model SparkMeetingRoom.Room
 
 @{
     ViewBag.Title = "Book a meeting room";
-    var userRoleOrder = Visma_Room2Meet.Helpers.User.GetUserRoleOrder(User.Identity.Name);
+    var userRoleOrder = SparkMeetingRoom.Helpers.User.GetUserRoleOrder(User.Identity.Name);
 }
 
 <h2>@ViewBag.Title</h2>

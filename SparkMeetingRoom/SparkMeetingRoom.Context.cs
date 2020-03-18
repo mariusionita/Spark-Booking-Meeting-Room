@@ -7,7 +7,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace Visma_Room2Meet
+namespace SparkMeetingRoom
 {
     using System;
     using System.Data.Entity;
@@ -39,6 +39,7 @@ namespace Visma_Room2Meet
         public virtual DbSet<RoomAsset> RoomAssets { get; set; }
         public virtual DbSet<RoomRole> RoomRoles { get; set; }
         public virtual DbSet<Room> Rooms { get; set; }
+        public virtual DbSet<SparkMeetingUser> SparkMeetingUsers { get; set; }
         public virtual DbSet<sysdiagram> sysdiagrams { get; set; }
     }
 }

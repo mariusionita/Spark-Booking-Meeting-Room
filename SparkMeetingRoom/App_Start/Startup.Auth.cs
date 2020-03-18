@@ -5,9 +5,9 @@ using Microsoft.Owin;
 using Microsoft.Owin.Security.Cookies;
 using Microsoft.Owin.Security.Google;
 using Owin;
-using Visma_Room2Meet.Models;
+using SparkMeetingRoom.Models;
 
-namespace Visma_Room2Meet
+namespace SparkMeetingRoom
 {
     public partial class Startup
     {

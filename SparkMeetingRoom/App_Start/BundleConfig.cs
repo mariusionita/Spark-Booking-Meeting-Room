@@ -1,7 +1,7 @@
 ﻿using System.Web;
 using System.Web.Optimization;
 
-namespace Visma_Room2Meet
+namespace SparkMeetingRoom
 {
     public class BundleConfig
     {

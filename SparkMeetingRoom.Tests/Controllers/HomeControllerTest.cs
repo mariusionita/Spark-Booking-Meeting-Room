@@ -4,10 +4,9 @@ using System.Linq;
 using System.Text;
 using System.Web.Mvc;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
-using Visma_Room2Meet;
-using Visma_Room2Meet.Controllers;
+using SparkMeetingRoom.Controllers;
 
-namespace Visma_Room2Meet.Tests.Controllers
+namespace SparkMeetingRoom.Tests.Controllers
 {
     [TestClass]
     public class HomeControllerTest

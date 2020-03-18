@@ -7,7 +7,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace Visma_Room2Meet
+namespace SparkMeetingRoom
 {
     using System;
     using System.Collections.Generic;

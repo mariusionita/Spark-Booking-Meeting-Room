@@ -2,8 +2,8 @@
 using Owin;
 using System.Data.Entity;
 
-[assembly: OwinStartupAttribute(typeof(Visma_Room2Meet.Startup))]
-namespace Visma_Room2Meet
+[assembly: OwinStartupAttribute(typeof(SparkMeetingRoom.Startup))]
+namespace SparkMeetingRoom
 {
     public partial class Startup
     {

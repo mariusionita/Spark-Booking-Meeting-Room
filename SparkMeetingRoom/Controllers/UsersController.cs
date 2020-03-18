@@ -1,11 +1,11 @@
-﻿using System;
+﻿using SparkMeetingRoom;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
-using Visma_Room2Meet.Helpers;
 
-namespace Visma_Room2Meet.Controllers
+namespace SparkMeetingRoom.Controllers
 {
     [Authorize(Roles = "Administrator, TeamLeader, Executive")] //authorize only users with levels -1, 1 and 2 to access this page
     public class UsersController : Controller
@@ -29,7 +29,7 @@ namespace Visma_Room2Meet.Controllers
             }
             catch (Exception ex)
             {
-                ViewBag.Log = LogHandler.HandleLog(Helpers.LogType.Critical, "Users/Details", ex.Message, (ex.InnerException != null ? ex.InnerException.Message : ""));
+                ViewBag.Log = LogHandler.Helpers.LogHandler.HandleLog(LogHandler.Helpers.LogType.Critical, "Users/Details", ex.Message, (ex.InnerException != null ? ex.InnerException.Message : ""));
                 return View("Error");
             }
         }
@@ -56,7 +56,7 @@ namespace Visma_Room2Meet.Controllers
             }
             catch (Exception ex)
             {
-                ViewBag.Log = LogHandler.HandleLog(Helpers.LogType.Critical, "Users/Index", ex.Message, (ex.InnerException != null ? ex.InnerException.Message : ""));
+                ViewBag.Log = LogHandler.Helpers.LogHandler.HandleLog(LogHandler.Helpers.LogType.Critical, "Users/Index", ex.Message, (ex.InnerException != null ? ex.InnerException.Message : ""));
                 return View("Error");
             }
         }
@@ -97,7 +97,7 @@ namespace Visma_Room2Meet.Controllers
             }
             catch (Exception ex)
             {
-                ViewBag.Log = LogHandler.HandleLog(Helpers.LogType.Warning, "Users/Delete", ex.Message, (ex.InnerException != null ? ex.InnerException.Message : ""), Request.Params);
+                ViewBag.Log = LogHandler.Helpers.LogHandler.HandleLog(LogHandler.Helpers.LogType.Warning, "Users/Delete", ex.Message, (ex.InnerException != null ? ex.InnerException.Message : ""), Request.Params);
                 return View("Error");
             }
         }
@@ -152,7 +152,7 @@ namespace Visma_Room2Meet.Controllers
             }
             catch (Exception ex)
             {
-                ViewBag.Log = LogHandler.HandleLog(Helpers.LogType.Warning, "Users/UpdateRole", ex.Message, (ex.InnerException != null ? ex.InnerException.Message : ""), Request.Params);
+                ViewBag.Log = LogHandler.Helpers.LogHandler.HandleLog(LogHandler.Helpers.LogType.Warning, "Users/UpdateRole", ex.Message, (ex.InnerException != null ? ex.InnerException.Message : ""), Request.Params);
                 return View("Error");
             }
         }
@@ -196,7 +196,7 @@ namespace Visma_Room2Meet.Controllers
             }
             catch (Exception ex)
             {
-                ViewBag.Log = LogHandler.HandleLog(Helpers.LogType.Warning, "Users/Unlock", ex.Message, (ex.InnerException != null ? ex.InnerException.Message : ""), Request.Params);
+                ViewBag.Log = LogHandler.Helpers.LogHandler.HandleLog(LogHandler.Helpers.LogType.Warning, "Users/Unlock", ex.Message, (ex.InnerException != null ? ex.InnerException.Message : ""), Request.Params);
                 return View("Error");
             }
         }

@@ -3,7 +3,7 @@ using System.ComponentModel.DataAnnotations;
 using Microsoft.AspNet.Identity;
 using Microsoft.Owin.Security;
 
-namespace Visma_Room2Meet.Models
+namespace SparkMeetingRoom.Models
 {
     public class IndexViewModel
     {
