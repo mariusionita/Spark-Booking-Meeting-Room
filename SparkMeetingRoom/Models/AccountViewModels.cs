@@ -48,17 +48,18 @@ namespace SparkMeetingRoom.Models
 
     public class LoginViewModel
     {
+        [Display(Name = "Username")]
         [Required]
-        [Display(Name = "Email")]
-        [EmailAddress]
-        public string Email { get; set; }
+        [StringLength(100, ErrorMessage = "User name is required.", MinimumLength = 6)]
+        public string UserName { get; set; }
 
-        [Required]
         [DataType(DataType.Password)]
         [Display(Name = "Password")]
+        [Required]
+        [StringLength(100, ErrorMessage = "Password is required.", MinimumLength = 6)]
         public string Password { get; set; }
 
-        [Display(Name = "Remember me?")]
+        [Display(Name = "Remember me")]
         public bool RememberMe { get; set; }
     }
 
@@ -95,8 +96,6 @@ namespace SparkMeetingRoom.Models
         [Display(Name = "Phone number")]
         public string PhoneNumber { get; set; }
         public string Salt { get; set; }
-        //[Display(Name = "Visma building")]
-        //public int? BuildingID { get; set; }
     }
 
     public class ResetPasswordViewModel

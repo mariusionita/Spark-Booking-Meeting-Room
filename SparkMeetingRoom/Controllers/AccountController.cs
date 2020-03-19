@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
 using System.Security.Claims;
@@ -8,6 +9,7 @@ using System.Web.Mvc;
 using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.Owin;
 using Microsoft.Owin.Security;
+using SparkMeetingRoom.Helpers;
 using SparkMeetingRoom.Models;
 
 namespace SparkMeetingRoom.Controllers
@@ -53,6 +55,25 @@ namespace SparkMeetingRoom.Controllers
             }
         }
 
+        public void IdentitySignin(AppUserState appUserState, string providerKey = null, bool isPersistent = false)
+        {
+            var claims = new List<Claim>
+            {
+                // create required claims
+                new Claim(ClaimTypes.NameIdentifier, appUserState.UserId),
+                new Claim(ClaimTypes.Name, appUserState.Name)  
+            };
+
+            var identity = new ClaimsIdentity(claims, DefaultAuthenticationTypes.ApplicationCookie);
+
+            AuthenticationManager.SignIn(new AuthenticationProperties()
+            {
+                AllowRefresh = true,
+                IsPersistent = isPersistent,
+                ExpiresUtc = DateTime.UtcNow.AddDays(1)
+            }, identity);
+        }
+
         //
         // GET: /Account/Login
         [AllowAnonymous]
@@ -70,32 +91,35 @@ namespace SparkMeetingRoom.Controllers
         // POST: /Account/Login
         [HttpPost]
         [AllowAnonymous]
-        [ValidateAntiForgeryToken]
-        public async Task<ActionResult> Login(LoginViewModel model, string returnUrl)
+        public ActionResult Login(LoginViewModel model, string returnUrl)
         {
-            if (!ModelState.IsValid)
+            if (ModelState.IsValid)
             {
-                return View(model);
+                var user = Helpers.User.ValidateAuthentication(model.UserName, model.Password);
+
+                if (user == null)
+                {
+                    ModelState.AddModelError("", "Login failed!");
+                    return View("Login", model);
+                }
+
+                if (user.IsActive == false)
+                {
+                    ModelState.AddModelError("", "Inactive account!");
+                    return View("Login", model);
+                }
+
+                AppUserState appUserState = new AppUserState(user);
+                IdentitySignin(appUserState, appUserState.UserId.ToString(), model.RememberMe);
+
+                if (!string.IsNullOrEmpty(returnUrl))
+                    return Redirect(returnUrl);
+
+                return RedirectToAction("Index", "Home");
             }
 
-            // This doesn't count login failures towards account lockout
-            // To enable password failures to trigger account lockout, change to shouldLockout: true
-            var result = await SignInManager.PasswordSignInAsync(model.Email, model.Password, model.RememberMe, shouldLockout: false);
-            switch (result)
-            {
-                case SignInStatus.Success:
-                    return RedirectToLocal(returnUrl);
-                case SignInStatus.LockedOut:
-                    return View("Lockout");
-                case SignInStatus.RequiresVerification:
-                    return RedirectToAction("SendCode", new { ReturnUrl = returnUrl, RememberMe = model.RememberMe });
-                case SignInStatus.Failure:
-                default:
-                    ModelState.AddModelError("", "Invalid login attempt.");
-                    return View(model);
-            }
+            return View("Login", model);
         }
-
         //
         // GET: /Account/VerifyCode
         [AllowAnonymous]
@@ -149,7 +173,6 @@ namespace SparkMeetingRoom.Controllers
                 return RedirectToAction("Index", "Home");
             }
 
-            //ViewBag.BuildingID = new SelectList(db.Buildings.ToList(), "BuildingID", "Name");
             return View();
         }
 
@@ -169,39 +192,8 @@ namespace SparkMeetingRoom.Controllers
                     repository.SparkMeetingUsers.Add(newUser);
                     repository.SaveChanges();
                 }
-                //var user = new ApplicationUser { UserName = model.Email, Email = model.Email, PhoneNumber = model.PhoneNumber, LockoutEnabled = true, LockoutEndDateUtc = DateTime.UtcNow.AddYears(1) };
-
-                //try
-                //{
-                //    var result = await UserManager.CreateAsync(user, model.Password);
-                //    if (result.Succeeded)
-                //    {
-                //        var role = db.AspNetRoles.Where(r => r.Name == "Employee").FirstOrDefault();
-                //        var userdb = db.AspNetUsers.Find(user.Id);
-                //        userdb.AspNetRoles.Add(role);
-                //        db.Entry(userdb).State = System.Data.Entity.EntityState.Modified;
-                //        db.SaveChanges();
-                //        /*await SignInManager.SignInAsync(user, isPersistent:false, rememberBrowser:false);*/
-
-                //        // For more information on how to enable account confirmation and password reset please visit http://go.microsoft.com/fwlink/?LinkID=320771
-                //        // Send an email with this link
-                //        // string code = await UserManager.GenerateEmailConfirmationTokenAsync(user.Id);
-                //        // var callbackUrl = Url.Action("ConfirmEmail", "Account", new { userId = user.Id, code = code }, protocol: Request.Url.Scheme);
-                //        // await UserManager.SendEmailAsync(user.Id, "Confirm your account", "Please confirm your account by clicking <a href=\"" + callbackUrl + "\">here</a>");
-
-                //        return View("Lockout");
-                //    }
-                //    AddErrors(result);
-                //}
-                //catch (Exception ex)
-                //{
-                //}
-
-
             }
 
-            // If we got this far, something failed, redisplay form
-            //ViewBag.BuildingID = new SelectList(db.Buildings.ToList(), "BuildingID", "Name");
             return View(model);
         }
 

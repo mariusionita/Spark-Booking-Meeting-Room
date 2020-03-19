@@ -28,6 +28,32 @@ namespace SparkMeetingRoom.Helpers
             return System.Convert.ToBase64String(hash);
         }
 
+        public static SparkMeetingUser ValidateAuthentication(string userName, string password, SparkMeetingRoomEntities repository = null)
+        {
+            if (string.IsNullOrEmpty(password.Trim()) || string.IsNullOrEmpty(userName.Trim()))
+            {
+                return null;
+            }
+
+            if (repository == null)
+                repository = new SparkMeetingRoomEntities();
+
+            var user = repository.SparkMeetingUsers.FirstOrDefault(item => item.UserName == userName);
+            if (user != null)
+            {
+                string hash = HashPassword(password, user.Salt);
+                if (hash == user.Password)
+                {
+                    repository.Dispose();
+                    return user;
+                }
+            }
+
+            repository.Dispose();
+
+            return null;
+        }
+
         public static void CreatePassword(ref RegisterViewModel model)
         {
             model.Salt = GetRandomSalt();

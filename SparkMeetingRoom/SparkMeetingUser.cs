@@ -9,10 +9,11 @@
 
 namespace SparkMeetingRoom
 {
+    using SparkMeetingRoom.Helpers;
     using System;
     using System.Collections.Generic;
     
-    public partial class SparkMeetingUser
+    public partial class SparkMeetingUser : IUserState
     {
         public SparkMeetingUser(string firstName, string lastName, string email, bool? isActive, string userName, string password, string salt, DateTime? creationDate)
         {
@@ -24,6 +25,19 @@ namespace SparkMeetingRoom
             Password = password;
             Salt = salt;
             CreationDate = creationDate;
+        }
+
+        public SparkMeetingUser()
+        {}
+
+        public AppUserState GetUserState()
+        {
+            return new AppUserState()
+            {
+                Name = this.UserName,
+                Email = this.Email,
+                UserId = this.Id.ToString()
+            };
         }
 
         public int Id { get; set; }

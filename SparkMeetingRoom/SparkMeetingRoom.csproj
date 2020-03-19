@@ -216,8 +216,10 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
+    <Compile Include="Helpers\AppUserState.cs" />
     <Compile Include="Helpers\BookingChanges.cs" />
     <Compile Include="Helpers\BookingStatus.cs" />
+    <Compile Include="Helpers\IUserState.cs" />
     <Compile Include="Helpers\LogHandler.cs" />
     <Compile Include="Helpers\SMS.cs" />
     <Compile Include="Helpers\UserHelpers.cs" />
